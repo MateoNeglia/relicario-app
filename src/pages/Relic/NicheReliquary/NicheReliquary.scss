@@ -5,6 +5,14 @@
         color: palette.$primary-main; 
         margin: 20px;
     }
+
+    .reliquary-details {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        margin: 20px;
+    }
     .relic-card {
         border: 1px solid;
         padding: 10px;

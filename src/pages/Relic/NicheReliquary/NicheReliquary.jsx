@@ -60,7 +60,7 @@ const NicheReliquary = ({ reliquaryId }) => {
     <div className="niche-reliquary">
       <h2>Relicario de: {niche?.specific || 'Specific'}</h2>
       {error && <p className="error">{error}</p>}
-      <div>
+      <div className='reliquary-details'>
         {relics.length > 0 ? (
           relics.map((relic) => (
             <div key={relic._id} className="relic-card">
@@ -106,7 +106,7 @@ const NicheReliquary = ({ reliquaryId }) => {
       <Button
         variant="outlined"
         color="primary"
-        text="Back to Reliquary"
+        text="Volver a los Relicarios"
         onClick={() => navigate('/reliquary')}
       />
       <DeleteDialog
