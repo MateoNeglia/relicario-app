@@ -1,0 +1,96 @@
+@use '../../styles/palette' as palette;
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+
+  .search-input {
+    .MuiOutlinedInput-root {
+      background-color: palette.$secondary-main;
+      color: palette.$text-primary;
+      border-radius: 50px;
+      fieldset {
+        border-color: palette.$secondary-main;
+      }
+      &:hover fieldset {
+        border-color: palette.$primary-main;
+      }
+      &.Mui-focused fieldset {
+        border-color: palette.$primary-main;
+      }
+    }
+    .MuiInputBase-input {
+      padding: 8px 12px;
+      font-size: 0.875rem;
+    }
+  }
+
+  .search-button {
+    color: palette.$secondary-main;
+    
+    &:hover {
+      background-color: rgba(palette.$primary-main, 0.04);
+    }
+  }
+
+  .niche-error {
+    width: 100%;
+    .MuiAlert-root {
+      font-size: 0.75rem;
+      padding: 4px 8px;
+    }
+  }
+
+  .filter-button {
+    text-transform: none;    
+    border-color: palette.$secondary-main;
+    color: palette.$secondary-main;
+
+    
+    &:hover {
+      border-color: palette.$primary-main;
+      background-color: rgba(palette.$primary-main, 0.04);
+    }
+  }
+
+
+  .suggestions-list {
+  background-color: #d4cbc4;
+  color: #131313;
+  max-width: 300px;
+  border: 1px solid #48182f;
+  .MuiListItem-root {
+    padding: 4px 8px;
+    &:hover {
+      background-color: rgba(72, 24, 47, 0.2);
+    }
+  }
+}
+
+.suggestions-error {
+  color: #48182f;
+}
+
+}
+
+@media (max-width: 767px) {
+  .search-bar {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 12px;
+
+    .search-input {
+      min-width: 250px;
+      width: 100%;
+    }
+
+    .search-button,
+    .filter-button {
+      width: 100%;
+      margin-left: 0;
+      margin-top: 8px;
+    }
+  }
+}

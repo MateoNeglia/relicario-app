@@ -1,0 +1,81 @@
+@use '../../styles/palette' as palette;
+.search-results {
+  padding: 16px;
+  max-width: 1200px;
+  margin: 0 auto;
+  .search-results-title {
+    margin-bottom: 16px;
+    font-size: 2rem;
+    text-align: left;
+    color: palette.$primary-main;
+  }
+  .search-result-item {
+    cursor: pointer;
+    transition: background-color 0.2s;
+
+    &:hover {
+      background-color: palette.$secondary-light;
+    }
+    .relic-item {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+    }
+    .relic-data {
+      display: flex;
+      flex-direction: row;
+      align-items: center;      
+      
+    }
+
+    .relic-image {
+      width: 100%;
+      max-width: 100px;
+      height: auto;
+      margin-right: 1em;
+      border-radius: 8px;
+    }
+
+    .relic-actions {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 8px;
+      justify-content: space-between;
+      .link-actions {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 8px;
+      }
+      .MuiButton-root {
+        text-transform: none; 
+                
+        width: 100%;
+      }
+
+      .MuiButton-outlined {
+        background-color: palette.$secondary-main;        
+        border: 2px solid;             
+      }
+    }
+    
+  }
+
+  .pagination {
+    .MuiPaginationItem-root {
+      color: #131313;
+
+      &.Mui-selected {
+        background-color: #48182f;
+        color: #d4cbc4;
+      }
+
+      &:hover {
+        background-color: #d4cbc4;
+      }
+    }
+  }
+}
+

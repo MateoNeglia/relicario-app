@@ -1,0 +1,159 @@
+@use '../../styles/palette' as palette;
+
+.profile-container {
+    text-align: left;
+    color: palette.$primary-main; 
+    background-color: palette.$background-default;
+    min-height: calc(100vh - 60px);
+
+  .profile-header {
+    background-color: palette.$background-paper; 
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    .profile-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      margin-left: 1rem;
+    }
+    .MuiBadge-root {
+      .MuiTypography-body1 {
+        color: palette.$text-primary; 
+        margin-right: 0.5rem;
+      }
+    }
+  }
+  .profile-buttons {
+    display: flex;        
+    max-width: 250px;
+    button {
+      flex: 1;
+      margin: 0.5rem 0;      
+      width: 120px;
+      text-transform: none;
+      font-weight: 500;
+    }
+    
+  }
+
+  .profile-actions {
+    display: flex;
+    flex-direction: column;
+
+    .row {
+      width: 100%;
+    }
+    button {
+        width: 45%;
+        margin-left: .5em;
+        margin-right: .5em;
+    }
+  }
+
+  .MuiButton-containedPrimary {
+    background-color: palette.$primary-main;
+    color: palette.$text-secondary;
+    &:hover {
+      background-color: palette.$primary-dark;
+    }
+  }
+
+  .MuiButton-containedSecondary {
+    background-color: palette.$secondary-main;
+    color: palette.$text-primary;
+    &:hover {
+      background-color: palette.$secondary-dark;
+    }
+  }
+
+  .MuiTypography-h5 {    
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+  }
+
+  .MuiChip-root {
+    margin: 0.25rem;
+  }
+
+  .MuiCard-root {    
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+    .MuiTypography-h6 {
+      color: palette.$text-primary; 
+    }
+
+    .MuiTypography-body2 {
+      color: palette.$text-primary; 
+      margin-top: 0.5rem;
+    }
+  }
+
+  .MuiAlert-root {
+    margin-bottom: 1rem;
+  }
+
+  .profile-actions {
+    .profile-action-row {
+      display: flex;
+      flex-direction: row;
+      height: 100px;
+    }
+    .MuiButton-root {
+      text-transform: none; 
+      font-weight: 500;
+      padding: 0.75rem; 
+      width: 100%;
+    }
+
+    .MuiButton-outlined {
+        border-color: palette.$primary-main;
+        border: 3px solid;     
+        border-radius: 10px;
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  .profile-container {
+    padding: 0!important;
+
+    .profile-header {      
+      align-items: flex-start;
+      gap: 1rem;
+      .profile-info {
+        margin-left: 0;
+      }
+      .profile-avatar {
+        width: 80px;
+        height: 80px;
+      }
+      h4 {
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+      }
+      .exchanges-chip {
+       display: none;
+      }
+      .profile-buttons {
+        flex-direction: column;
+        max-width: 100%;
+        button {
+          width: 100px;
+          margin: 0.5rem 0;
+        }
+      }
+    }
+
+    .profile-actions {
+      .profile-action-row {        
+        height: auto;
+      }
+      .MuiButton-root {
+        font-size: 0.875rem;
+      }
+    }
+  }
+}

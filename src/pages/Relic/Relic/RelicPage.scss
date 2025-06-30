@@ -1,0 +1,45 @@
+@use '../../../styles/palette' as palette;
+.relic-page {
+  .relic-card .relic-content{
+    align-items: center;
+  }
+  
+  .relic-image {
+    max-width: 100px;
+    height: auto;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+  .relic-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;    
+    width: 100%;
+    .relic-title {
+      color: palette.$primary-main;
+      text-align: left;
+      margin-left: 1em;
+    }
+    .relic-details {
+    list-style: none;
+    text-align: left;
+    padding-inline-start: 1em;
+      li {
+        margin-bottom: 8px;
+        font-size: 14px;
+        color: #555;
+      }
+    }
+    .relic-actions {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+      flex-direction: column;
+      button {
+        margin-bottom: 10px;
+      }
+    }
+
+  }
+  
+}

@@ -1,0 +1,161 @@
+@use '../../styles/palette' as palette;
+
+.landing-page {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 60px);
+  background-color: palette.$background-default; 
+
+  .welcome-strip {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: palette.$secondary-main;
+    
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 1000;
+
+    .strip-content {
+      display: flex;
+      align-items: center;      
+      //width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .strip-text {
+      color: palette.$text-primary; 
+      flex: 1;
+      margin-right: 1rem;
+    }
+
+    a {
+      margin-bottom: 12px;
+      padding: .7em;
+    }
+
+    .close-button {
+      color: palette.$primary-main;
+      margin-left: 20px;
+      margin-right: 10px;
+    }
+  }
+
+  .banner-section {
+    position: relative;
+    width: 100%;
+    height: 600px; // Adjust based on image
+    background-image: url('../../assets/imgs/landing-banner.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin-bottom: 2rem;
+
+    .banner-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to bottom, palette.$primary-main, transparent);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 2rem;
+
+      .banner-title {
+        color: palette.$secondary-main;
+        font-weight: 800;
+        margin-bottom: 1.5rem;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+      }
+
+      a {
+        max-width: 500px;
+      }
+    }
+  }
+
+  .hero-section {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 2rem;
+    background-color: palette.$background-paper;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+    h1 {
+      color: palette.$text-primary; // #131313
+      margin-bottom: 1rem;
+    }
+
+    p {
+      color: palette.$text-primary; // #131313
+      margin-bottom: 2rem;
+    }
+
+    .cta-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  .landing-page {
+    .welcome-strip {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 1rem;
+
+      .strip-content {
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%;
+      }
+
+      .strip-text {
+        margin-bottom: 0.5rem;
+        margin-right: 0;
+      }
+
+      a {
+        width: 100%;
+        margin-bottom: 0.5rem;
+        padding: 0.5em;
+      }
+      .close-button {
+        position: absolute;
+        top: 0.5rem;
+        right: 0.5rem;
+      }
+    }
+
+    .banner-section {
+      height: 400px; // Smaller on mobile
+
+      .banner-overlay {
+        padding: 1rem;
+
+        .banner-title {
+          font-size: 1.5rem; // Smaller h3
+        }
+      }
+    }
+
+    .hero-section {
+      padding: 1.5rem;
+      max-width: 100%;
+
+      .cta-buttons {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+    }
+  }
+}

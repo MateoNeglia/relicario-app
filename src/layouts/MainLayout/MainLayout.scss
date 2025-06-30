@@ -1,0 +1,17 @@
+@use '../../styles/palette' as palette;
+
+ 
+
+.main-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  grid-row: 2;  
+  background-color: palette.$background-default;
+}
+
+
+@media (max-width: 767px) {
+    .main-content {
+      padding: 1rem;
+    }
+}
