@@ -45,7 +45,7 @@
   .banner-section {
     position: relative;
     width: 100%;
-    height: 600px; // Adjust based on image
+    height: 600px; 
     background-image: url('../../assets/imgs/landing-banner.jpg');
     background-size: cover;
     background-position: center;
@@ -79,29 +79,32 @@
     }
   }
 
-  .hero-section {
-    text-align: center;
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 2rem;
-    background-color: palette.$background-paper;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  .landing-recomendations {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    padding: 1rem;
 
-    h1 {
-      color: palette.$text-primary; // #131313
-      margin-bottom: 1rem;
-    }
-
-    p {
-      color: palette.$text-primary; // #131313
-      margin-bottom: 2rem;
-    }
-
-    .cta-buttons {
+    .relic-card {
+      width: 250px; 
+      height: 500px;
       display: flex;
-      justify-content: center;
-      gap: 1rem;
+      flex-direction: column;
+      //justify-content: space-between;
+      align-items: center;
+      text-align: center;
+
+      img {
+        width: 100%;
+        height: auto;
+        border-radius: 8px;
+      }
+
+      .relic-name {
+        font-weight: bold;
+        margin-top: 0.5rem;
+      }
     }
   }
 }
@@ -137,13 +140,13 @@
     }
 
     .banner-section {
-      height: 400px; // Smaller on mobile
+      height: 400px;
 
       .banner-overlay {
         padding: 1rem;
 
         .banner-title {
-          font-size: 1.5rem; // Smaller h3
+          font-size: 1.5rem;
         }
       }
     }
