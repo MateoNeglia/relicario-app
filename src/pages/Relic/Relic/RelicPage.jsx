@@ -123,7 +123,7 @@ const RelicPage = ({ relicId, user, onNavigate }) => {
     <Box className="relic-page" sx={{ maxWidth: '800px', mx: 'auto', p: 3 }}>
       <Card className="relic-card" sx={{ p: 3, boxShadow: 3 }}>
         <Box className="relic-content" sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, gap: 3 }}>
-          <Box sx={{ flex: '0 0 auto', maxWidth: { xs: '100%', sm: '300px' } }}>
+          <Box className="relic-image-container" >
             <img
               src={getImageUrl(relic.picture)}
               alt={relic.name}
@@ -147,7 +147,7 @@ const RelicPage = ({ relicId, user, onNavigate }) => {
               </Typography>
             </Box>
             
-            <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
+            <Box sx={{ display: 'flex', height: '100%', alignItems: 'center', justifyContent: 'space-between', mt: 2 }}>
               {isOwner ? (
                 <Button
                   variant="outlined"
@@ -166,20 +166,23 @@ const RelicPage = ({ relicId, user, onNavigate }) => {
                   >
                     {liked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
                   </IconButton>
-                  <Button
-                    variant="outlined"
-                    color="primary"
-                    onClick={handleOwnerClick}
-                  >
-                    De: {relic.owner.username}
-                  </Button>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleChatClick}
-                  >
-                    Message
-                  </Button>
+                  <Box className="message-owner-box">
+                    <Button
+                      variant="contained"
+                      color="secondary"
+                      onClick={handleOwnerClick}
+                    >
+                      {relic.owner.username}
+                    </Button>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={handleChatClick}
+                    >
+                      Lo Quiero
+                    </Button>
+                  </Box>
+                  
                 </Box>
               )}
             </Box>
