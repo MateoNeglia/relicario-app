@@ -86,7 +86,18 @@ const sendTextMessage = async (textMessage, user, setTextMessage) => {
         const response = await axios.post(`/api/messages`, body, {
             headers: { Authorization: `Bearer ${accessToken}` },
         });
-        setMessages((prev) => [...prev, response.data]);
+        
+        // Verificar si el mensaje ya existe antes de agregarlo
+        setMessages((prev) => {
+            const messageExists = prev.some(msg => msg._id === response.data._id);
+            if (messageExists) {
+                console.log('Mensaje enviado ya existe en el estado:', response.data._id);
+                return prev;
+            }
+            console.log('Mensaje enviado agregado al estado:', response.data);
+            return [...prev, response.data];
+        });
+        
         setNewMessage(response.data);
         setTextMessage('');
 
@@ -120,33 +131,44 @@ useEffect(() => {
 const [activeChat, setActiveChat] = useState(null);
 
 useEffect(() => {
-    if (!socket) return;
-    const recipientId = activeChat?.members?.find((member) => member !== user._id);
-    console.log('recipientId', recipientId);
-    console.log('currentChat', activeChat);
-    if (recipientId) {
+    
+    if (!socket || !newMessage || !activeChat) return;
+    console.log('activeChat desde new message', activeChat);
+    
+    // Buscar el recipient correcto en el array de members
+    const recipient = activeChat.members?.find((member) => member.id !== user._id);
+    console.log('recipient encontrado:', recipient);
+    
+    if (recipient && recipient.id) {
+        console.log('recipientId', recipient.id);
+        console.log('currentChat', activeChat);
         socket.emit('sendMessage', {
             ...newMessage,
-            recipientId,
+            recipientId: recipient.id,
         });
+    } else {
+        console.warn('No se pudo encontrar el recipient para el mensaje');
     }
 
-}, [newMessage]);
+}, [newMessage, activeChat, socket]);
+
+
 
 useEffect(() => {
-    if (!socket) return;
+    if (!socket) return;    
     socket.on('getMessage', (data) => {
-        const isChatOpen = activeChat?._id === data.chatId;
-        if (isChatOpen) {
-            setMessages((prev) => [...prev, data]);
+        if (data.senderId !== user._id) { 
+            const isChatOpen = activeChat?._id === data.chatId;
+            if (isChatOpen) {
+                setMessages((prev) => [...prev, data]);
+            }
         }
     });
-
     return () => {
         socket.off('getMessage');
-    }
+    };
+}, [socket, activeChat, user]); 
 
-}, [newMessage, currentChat, user]);
 
 useEffect(() => {
     if (!currentChat) return;
@@ -159,9 +181,10 @@ const findChatById = async (currentChat) => {
     if (!currentChat) return;
     try {
         const accessToken = Cookies.get('accessToken');
-        const response = await axios.get(`/api/chats/by-id/${currentChat}`, {
+        const response = await axios.get(`/api/chats/find/by-id/${currentChat}`, {
             headers: { Authorization: `Bearer ${accessToken}` },
         });
+        console.log('Chat encontrado por ID:', response.data);
         return response.data;
     } catch (err) {
         console.error('Failed to find chat by id:', err);

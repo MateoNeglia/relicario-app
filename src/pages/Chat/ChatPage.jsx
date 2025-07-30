@@ -113,8 +113,7 @@ const ChatPage = ({ user, chatId, onNavigate }) => {
   }
 
   const handleOnlineStatus = (userId) => {
-    const isOnline = onlineUsers.some(user => user.userId === userId);
-    console.log("handleOnlineStatus", isOnline, userId, onlineUsers);
+    const isOnline = onlineUsers.some(user => user.userId === userId);    
     return isOnline;
   }
 
@@ -172,7 +171,7 @@ const ChatPage = ({ user, chatId, onNavigate }) => {
                   <Typography variant="body1" className="chat-messages-empty">Aún no hay mensajes en esta conversación.</Typography>
                 ) : (
                   messages.map((message, index) => (
-                    <Box ref={scrollRef} key={message._id} className={`chat-message ${message.senderId === user._id ? 'chat-message-sent' : 'chat-message-received'}`}>
+                    <Box ref={scrollRef} key={`${message._id}-${index}`} className={`chat-message ${message.senderId === user._id ? 'chat-message-sent' : 'chat-message-received'}`}>
                       <Typography variant="body1" className="chat-message-text">{message.text}</Typography>
                       <Typography variant="body1" className="chat-message-time">{dayjs(message.createdAt).format('HH:mm')}</Typography>
                     </Box>
