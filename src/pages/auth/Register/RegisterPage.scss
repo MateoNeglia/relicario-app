@@ -34,9 +34,8 @@
     max-width: 400px;
     margin: 0 auto;
     border-radius: 5px;
-    
-    input {
-      background-color: palette.$background-paper;
+    background-color: palette.$background-paper;
+    input {      
       border-radius: 5px;
     }
     h2 {
@@ -51,11 +50,6 @@
       text-align: center;
     }
 
-    form {
-      div {
-        margin-bottom: 1rem;
-      }
-    }
   }
 
   .google-login-wrapper {

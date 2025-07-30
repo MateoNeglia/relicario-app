@@ -1,4 +1,5 @@
 @use '../../styles/palette' as palette;
+@use 'sass:color';
 
 .landing-page {
   display: flex;
@@ -58,7 +59,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: linear-gradient(to bottom, palette.$primary-main, transparent);
+      background: color.adjust(palette.$primary-main, $alpha: -0.35);
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -87,19 +88,21 @@
     padding: 1rem;
 
     .relic-card {
-      width: 250px; 
-      height: 500px;
+      width: 100%;
+      max-width: 300px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
       display: flex;
       flex-direction: column;
-      //justify-content: space-between;
-      align-items: center;
-      text-align: center;
+      height: 100%;
+      cursor: pointer;  
 
-      img {
-        width: 100%;
-        height: auto;
-        border-radius: 8px;
-      }
+      // img {
+      //   width: 100%;
+      //   height: auto;
+      //   border-radius: 8px;
+      // }
 
       .relic-name {
         font-weight: bold;

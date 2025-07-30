@@ -1,0 +1,26 @@
+.favourites-page {
+  padding: 20px;
+  .relic-item {    
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    .relic-image {
+        width: 100px;
+        height: 150px; 
+        margin-right: 1em;
+        cursor: pointer;
+    }
+
+    .relic-data {
+      display: flex;
+    }
+    .relic-actions {
+      display: flex;
+      button {
+        margin-right: 1em;
+      }
+    }
+  }
+
+}

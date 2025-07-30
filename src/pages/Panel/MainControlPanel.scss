@@ -1,0 +1,47 @@
+@use '../../styles/palette' as palette;
+
+.main-control-panel {
+  background-color: palette.$background-default;
+  padding: 24px;
+
+  .MuiTableContainer-root {
+    background-color: palette.$background-paper;
+    border: 1px solid palette.$secondary-main;
+    border-radius: 8px;
+  }
+
+  .MuiTableHead-root {
+    background-color: palette.$secondary-main;
+    .MuiTableCell-root {
+      color: palette.$primary-main;
+      font-weight: bold;
+    }
+  }
+
+  .MuiTableCell-root {
+    color: palette.$primary-main;
+    border-bottom: 1px solid palette.$secondary-main;
+  }
+
+  .MuiTableRow-root:hover {
+    background-color: palette.$secondary-light;
+  }
+
+  .MuiButton-containedPrimary {
+    background-color: palette.$secondary-main;
+    color: palette.$primary-main;
+    &:hover {
+      background-color: palette.$primary-dark;
+    }
+  }
+
+  .MuiDialog-paper {
+    background-color: palette.$background-paper;
+    color: palette.$primary-main;
+  }
+
+  .MuiDialogTitle-root {
+    background-color: palette.$secondary-main;
+    color: palette.$primary-main;
+  }
+}

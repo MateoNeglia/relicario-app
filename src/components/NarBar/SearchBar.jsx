@@ -59,19 +59,19 @@ const SearchBar = ({ onSearch }) => {
   const debouncedQuery = useDebounce(query, 300);
 
   const sortOptions = [
-    { value: 'createdAt', label: 'Recently Created' },
-    { value: 'updatedAt', label: 'Recently Updated' },
-    { value: 'likes', label: 'Most Likes' },
-    { value: 'ownerName', label: "Owner's Name" },
-    { value: 'year', label: 'Year' },
+    { value: 'createdAt', label: 'Creado Recientemente' },
+    { value: 'updatedAt', label: 'Modificado Recientemente' },
+    { value: 'likes', label: 'Más gustado' },
+    { value: 'ownerName', label: "Propietario" },
+    { value: 'year', label: 'Año' },
     { value: 'set', label: 'Set' },
-    { value: 'condition', label: 'Condition' },
-    { value: 'name', label: 'Name' },
+    { value: 'condition', label: 'Condición' },
+    { value: 'name', label: 'Nombre' },
   ];
 
   const orderOptions = [
-    { value: 'asc', label: 'Ascending' },
-    { value: 'desc', label: 'Descending' },
+    { value: 'asc', label: 'Ascendente' },
+    { value: 'desc', label: 'Descendente' },
   ];
 
   useEffect(() => {
@@ -370,7 +370,7 @@ const SearchBar = ({ onSearch }) => {
             Ordenar Resultados
           </Typography>
           <FormControl component="fieldset">
-            <FormLabel component="legend">Ordenar por</FormLabel>
+            <FormLabel component="legend" className='order-label' sx={{color:'#48182f', fontWeight: '600'}}>Ordenar por</FormLabel>
             <RadioGroup name="sortBy" value={tempSort.sortBy} onChange={handleSortByChange}>
               {sortOptions.map((option) => (
                 <FormControlLabel
@@ -382,8 +382,8 @@ const SearchBar = ({ onSearch }) => {
               ))}
             </RadioGroup>
           </FormControl>
-          <FormControl component="fieldset" sx={{ mt: 2 }}>
-            <FormLabel component="legend">Orden</FormLabel>
+          <FormControl component="fieldset" >
+            <FormLabel component="legend" className='order-label2' sx={{color:'#48182f', fontWeight: '600'}}>Orden</FormLabel>
             <RadioGroup name="order" value={tempSort.order} onChange={handleOrderChange}>
               {orderOptions.map((option) => (
                 <FormControlLabel

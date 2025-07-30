@@ -45,7 +45,7 @@ const LandingPage = () => {
         <Box className="welcome-strip">
           <div className="strip-content">
             <Typography variant="body1" className="strip-text">
-              ¿Eres nuevo en Relicario? Conéctate ahora con cientos de personas que comparten tu pasión.
+              ¿Sos nuevo en Relicario? Conectate ahora con cientos de personas que comparten tu pasión.
             </Typography>
             <Button
               text="Registrarme"
@@ -68,13 +68,13 @@ const LandingPage = () => {
       <Box className="banner-section">
         <Box className="banner-overlay">
           <Typography variant="h3" component="h3" className="banner-title">
-            Conecta tu Colección <br />
-            ¡y consigue la reliquia que te falta!
+            Conectá tu Colección <br />
+            ¡y conseguí la reliquia que te falta!
           </Typography>
           <Button
-            text="Comienza Ahora"
+            text="Comenzá Ahora"
             component={Link}
-            to="/login"
+            to="/register"
             color="secondary"
             textColor="primary"
             size="large"
@@ -97,21 +97,28 @@ const LandingPage = () => {
               <Grid item xs={12} sm={6} md={4} key={relic._id}>
                 <Card className='relic-card' >
                   <CardMedia
-                    component="img"
-                    width="200px"
+                    component="img"                    
                     image={getImageUrl(relic.picture)}
                     alt={relic.name}
+                    sx={{
+                      height: 200,
+                      width: '100%',
+                      objectFit: 'contain',
+                      backgroundColor: '#f5f5f5',
+                    }}
                   />
-                  <CardContent sx={{ textAlign: 'center' }}>
-                    <Typography variant="h6">{relic.name}</Typography>
+                  <CardContent sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                    <Box sx={{ flexGrow: 1 }}>
+                      <Typography variant="h6">{relic.name}</Typography>
+                    </Box>                    
                     <Button
                       variant="contained"
                       color="primary"
-                      sx={{ mt: 2 }}
+                      sx={{ mt: 2, alignSelf: 'flex-start' }}
                       component={Link}
                       to="/login"
                     >
-                      Quiero Esta Reliquia
+                      ¡Lo quiero!
                     </Button>
                   </CardContent>
                 </Card>

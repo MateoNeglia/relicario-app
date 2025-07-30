@@ -55,7 +55,7 @@ const Reliquary = () => {
             />            
           ))
         ) : (
-          <p>No niches found in your reliquary.</p>
+          <p>No se encontraron reliquias para los relicarios.</p>
         )}
       </div>      
     </div>

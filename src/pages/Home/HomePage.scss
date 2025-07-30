@@ -1,16 +1,30 @@
 @use '../../styles/palette' as palette;
+@use 'sass:color';
 
 .home-page {
   display: flex;
   flex-direction: column;
   min-height: calc(100vh - 60px);
-  background-color: palette.$background-default; 
+  background-color: palette.$background-default;
 
   .recomendations-grid {
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
     justify-content: center;
+    align-items: stretch;
+  }
+
+  .relic-card {
+    width: 100%;
+    max-width: 300px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    cursor: pointer;
   }
 
   .banner-section {
@@ -29,7 +43,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: linear-gradient(to bottom, palette.$primary-main, transparent);
+      background: color.adjust(palette.$primary-main, $alpha: -0.35);
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -60,12 +74,12 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
     h1 {
-      color: palette.$text-primary; 
+      color: palette.$text-primary;
       margin-bottom: 1rem;
     }
 
     p {
-      color: palette.$text-primary; 
+      color: palette.$text-primary;
       margin-bottom: 2rem;
     }
 
@@ -108,7 +122,7 @@
     }
 
     .banner-section {
-      height: 400px; 
+      height: 400px;
 
       .banner-overlay {
         padding: 1rem;
@@ -126,6 +140,13 @@
       .cta-buttons {
         flex-direction: column;
         gap: 0.5rem;
+      }
+    }
+
+    .recomendations-grid {
+      .relic-card {
+        max-width: 100%;
+        height: auto;
       }
     }
   }

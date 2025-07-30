@@ -55,7 +55,7 @@ export const AuthProvider = ({ children }) => {
             }
             const decoded = isTokenValid(accessToken);
             if (decoded) {
-              setUser({ id: decoded.id, username: decoded.username, email: decoded.email, role: decoded.role });
+              setUser({ _id: decoded.id, username: decoded.username, email: decoded.email, role: decoded.role });
               originalRequest.headers.Authorization = `Bearer ${accessToken}`;
               axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
               return axios(originalRequest);
@@ -134,35 +134,41 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const register = async (username, email, password) => {
+  const register = async (username, email, password, role = 'user', isAdmCreated = false) => {
     try {
       const res = await axios.post('/api/auth/register', {
         username,
         email,
         password,
-        role: 'user',
+        role,
       });
-      const { accessToken, refreshToken } = res.data;
-      const decoded = isTokenValid(accessToken);
-      if (!decoded) {
-        throw new Error('Invalid access token');
+      
+      if (!isAdmCreated) {
+        const { accessToken, refreshToken } = res.data;
+        const decoded = isTokenValid(accessToken);
+        if (!decoded) {
+          throw new Error('Invalid access token');
+        }
+        Cookies.set('accessToken', accessToken, {
+          expires: 1 / 24,
+          secure: process.env.NODE_ENV === 'production',
+          sameSite: 'Strict',
+        });
+        Cookies.set('refreshToken', refreshToken, {
+          expires: 7,
+          secure: process.env.NODE_ENV === 'production',
+          sameSite: 'Strict',
+        });
+
+        axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+        const userData = await getUserById(decoded.id);
+
+        setUser(userData);
+
+        return userData;
+      } else {
+        return res.data;
       }
-
-      Cookies.set('accessToken', accessToken, {
-        expires: 1 / 24,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'Strict',
-      });
-      Cookies.set('refreshToken', refreshToken, {
-        expires: 7,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'Strict',
-      });
-
-      axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
-      const userData = await getUserById(decoded.id);
-      setUser(userData);
-      return userData;
     } catch (err) {
       throw new Error(err.response?.data?.message || 'Registration failed');
     }

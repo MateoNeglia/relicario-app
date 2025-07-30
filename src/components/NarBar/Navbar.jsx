@@ -37,8 +37,21 @@ const NavBar = ({ pageType, onSearch }) => {
   };
 
   const renderNavBarContent = () => {
-    const isMainLogged = ['home', 'search', 'relic-page'].includes(pageType) && isAuthenticated;
-    const isUserRelated = ['profile', 'reliquary', 'favourites', 'niche/add', 'relic/add', 'messages', 'admin', 'add-relic', 'reliquary', 'niche-reliquary', 'update-relic'].includes(pageType);
+    const isMainLogged = ['home', 'search', 'relic-page', 'collector-profile'].includes(pageType) && isAuthenticated;
+    const isUserRelated = [
+      'profile', 
+      'reliquary', 
+      'favourites', 
+      'niche/add', 
+      'relic/add', 
+      'messages', 
+      'admin', 
+      'add-relic', 
+      'reliquary', 
+      'niche-reliquary', 
+      'update-relic', 
+      'favourites',
+      'chat'].includes(pageType);
     const isNonLogged = !isAuthenticated || pageType === 'landing';
 
     if (isMainLogged) {
@@ -92,7 +105,7 @@ const NavBar = ({ pageType, onSearch }) => {
           </a>
           <div className="actions">
             <Button
-              text="Login"
+              text="Ingresar"
               variant="outlined"
               onClick={handleLoginClick}
               color="seccondary"

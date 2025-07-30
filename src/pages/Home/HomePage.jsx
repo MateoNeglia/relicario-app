@@ -1,11 +1,11 @@
 import { useContext, useEffect, useState } from 'react';
-import { AuthContext } from '../../context/AuthContext.jsx';
-import { Box, Typography, Grid, Card, CardMedia, CardContent } from '@mui/material';
+import { AuthContext } from '../../context/AuthContext';
+import { Box, Typography, Grid, Card, CardMedia, CardContent, Chip } from '@mui/material';
 import { useNavigate, Link } from 'react-router-dom';
 import Button from '../../components/Button/Button';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import { getImageUrl } from '../../utils/imageUtils.jsx';
+import { getImageUrl } from '../../utils/imageUtils';
 import './HomePage.scss';
 
 const HomePage = () => {
@@ -73,7 +73,6 @@ const HomePage = () => {
           />
         </Box>
       </Box>
-      {/**separación desarrollo */}
       <Box sx={{ maxWidth: 1200, mx: 'auto', p: 3 }}>
         <Typography variant="h4" gutterBottom>
           Recomendaciones para vos
@@ -81,31 +80,42 @@ const HomePage = () => {
         {relics.length === 0 ? (
           <Typography>¡Agregá un nicho para ver recomendaciones!</Typography>
         ) : (
-          <Grid className="recomendations-grid" container spacing={3}>
+          <Grid container spacing={3} className="recomendations-grid">
             {relics.map((relic) => (
-              <Grid key={relic._id}>
-                <Card>
+              <Grid item xs={12} sm={6} md={4} key={relic._id}>
+                <Card className="relic-card">
                   <CardMedia
                     component="img"
-                    height="350"
                     image={getImageUrl(relic.picture)}
                     alt={relic.name}
+                    onClick={() => (window.location.href = `/relic/${relic._id}`)}
+                    sx={{
+                      height: 200,
+                      width: '100%',
+                      objectFit: 'contain',
+                      backgroundColor: '#f5f5f5',
+                    }}
                   />
-                  <CardContent>
-                    <Typography variant="h6">{relic.name}</Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      {relic.niche.category} - {relic.niche.specific}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      Condición: {relic.condition}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      Propietario: {relic.owner.username}
-                    </Typography>
+                  <CardContent sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                    <Box sx={{ flexGrow: 1 }}>
+                      <Typography variant="h6">{relic.name}</Typography>
+                      <Chip
+                        label={`${relic.niche.specific}`}
+                        color="secondary"
+                        size="small"
+                        sx={{ mt: 1 }}
+                      />
+                      <Typography variant="body2" color="primary" sx={{ mt: 1 }}>
+                        Condición: <b>{relic.condition}</b>
+                      </Typography>
+                      <Typography variant="body2" color="primary" sx={{ mt: 1 }}>
+                        Propietario: <b>{relic.owner.username}</b>
+                      </Typography>
+                    </Box>
                     <Button
                       variant="contained"
                       color="primary"
-                      sx={{ mt: 2 }}
+                      sx={{ mt: 2, alignSelf: 'flex-start' }}
                       onClick={() => (window.location.href = `/relic/${relic._id}`)}
                     >
                       Ver Detalles

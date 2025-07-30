@@ -1,10 +1,10 @@
 import { useState, useContext } from 'react';
-import { AuthContext } from '../../../context/AuthContext.jsx';
+import { AuthContext } from '../../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import Input from '../../../components/Input.jsx';
+import Input from '../../../components/Input/Input';
 import Button from '../../../components/Button/Button';
 import RelicarioLogo from '../../../assets/imgs/relicario-logo.svg';
 import './RegisterPage.scss';
@@ -35,7 +35,7 @@ const RegisterPage = () => {
 
     try {
       await register(formData.username, formData.email, formData.password);
-      navigate('/profile');
+      navigate('/');
     } catch (err) {
       setError(err.message || 'Registration failed');
     }

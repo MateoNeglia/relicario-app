@@ -7,7 +7,7 @@ const DeleteDialog = ({ isOpen, onClose, onConfirm, itemType = 'relic' }) => {
       case 'niche':
         return 'este nicho';
       case 'user':
-        return 'tu cuenta';
+        return 'esta cuenta';
       case 'relic':
       default:
         return 'esta reliquia';

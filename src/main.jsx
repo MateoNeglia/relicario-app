@@ -4,7 +4,7 @@ import { ThemeProvider } from '@mui/material/styles';
 import { createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import palette from './config/palette.js';
-import App from './App.jsx';
+import App from './App';
 
 const theme = createTheme({
   palette,

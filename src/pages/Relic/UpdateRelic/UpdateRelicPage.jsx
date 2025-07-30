@@ -3,11 +3,15 @@ import { AuthContext } from '../../../context/AuthContext';
 import Cookies from 'js-cookie';
 import axios from 'axios';
 import RelicForm from '../../../components/RelicForm/RelicForm';
+import { useNavigate } from 'react-router-dom';
+import { useNotification } from '../../../context/NotificationContext';
 
 const UpdateRelicPage = ({ relicId }) => {
+  const navigate = useNavigate();
   const { user } = useContext(AuthContext);
   const [initialData, setInitialData] = useState(null);
   const [error, setError] = useState('');
+  const { showNotification } = useNotification();
 
   useEffect(() => {
     const fetchRelicData = async () => {
@@ -73,7 +77,8 @@ const UpdateRelicPage = ({ relicId }) => {
         },
       });
 
-      window.location.href = '/profile';
+      showNotification('Reliquia actualizada', 'success');
+      navigate('/profile');
     } catch (err) {
       setError(err.response?.data?.message || 'Error al actualizar la reliquia. Intenta de nuevo.');
     }

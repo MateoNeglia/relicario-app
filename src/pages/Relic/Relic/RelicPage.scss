@@ -43,9 +43,10 @@
     }
     .relic-actions {
       display: flex;
-      justify-content: space-between;
-      margin-top: 20px;
       flex-direction: column;
+      align-items: flex-end;
+      gap: 8px;
+      justify-content: space-between;
       .message-owner-box {
         display: flex;
         flex-direction: column;

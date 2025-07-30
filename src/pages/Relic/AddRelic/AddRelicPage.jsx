@@ -3,11 +3,14 @@ import { AuthContext } from '../../../context/AuthContext';
 import Cookies from 'js-cookie';
 import axios from 'axios';
 import RelicForm from '../../../components/RelicForm/RelicForm';
-
+import { useNotification } from '../../../context/NotificationContext';
+import { useNavigate } from 'react-router-dom';
 
 const AddRelicPage = () => {
+  const navigate = useNavigate();
   const { user } = useContext(AuthContext);
   const [error, setError] = useState('');
+  const { showNotification } = useNotification();
 
   const handleSubmit = async ({ formData, selectedFile }) => {
     try {
@@ -40,10 +43,10 @@ const AddRelicPage = () => {
           'Content-Type': 'multipart/form-data',
         },
       });
-
-      window.location.href = '/profile';
+      showNotification('Reliquia agregada al relicario', 'success');
+      navigate('/profile');
     } catch (err) {
-      setError(err.response?.data?.message || 'Error al añadir la reliquia. Intenta de nuevo.');
+      showNotification(err.response?.data?.message || 'Error al añadir la reliquia. Intenta de nuevo.', 'error');      
     }
   };
 

@@ -14,6 +14,8 @@ import Reliquary from '../../pages/Relic/Reliquary/Reliquary';
 import NicheReliquary from '../../pages/Relic/NicheReliquary/NicheReliquary';
 import MainControlPanel from '../../pages/panel/MainControlPanel';
 import RelicPage from '../../pages/Relic/Relic/RelicPage';
+import FavouritesPage from '../../pages/Profile/Favourites/FavouritesPage';
+import ChatPage from '../../pages/Chat/ChatPage';
 import './MainLayout.scss';
 
 const MainLayout = ({ page }) => {
@@ -22,7 +24,7 @@ const MainLayout = ({ page }) => {
   const navigate = useNavigate();
   const { id } = useParams();   
 
-
+//collector-profile
 
   if (!searchContext) {
     console.error('MainLayout: SearchContext is undefined');
@@ -44,6 +46,10 @@ const MainLayout = ({ page }) => {
         return <HomePage />;
       case 'profile':
         return <ProfilePage />;
+      case 'favourites':
+        return <FavouritesPage user={userContext.user} onNavigate={navigate}/>;
+      case 'collector-profile':
+        return <ProfilePage userId={id}/>;
       case 'search':
         return <SearchResultsPage />;
       case 'relic-page':
@@ -56,6 +62,8 @@ const MainLayout = ({ page }) => {
         return <Reliquary />;
       case 'niche-reliquary':
         return <NicheReliquary reliquaryId={id}/>;
+      case 'chat':
+        return <ChatPage user={userContext.user} chatId={id} onNavigate={navigate} />;
       case 'admin':
         return <MainControlPanel />;
       default:        

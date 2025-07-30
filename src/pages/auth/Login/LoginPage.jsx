@@ -1,10 +1,10 @@
 import { useState, useContext } from 'react';
-import { AuthContext } from '../../../context/AuthContext.jsx';
+import { AuthContext } from '../../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import Input from '../../../components/Input.jsx';
+import Input from '../../../components/Input/Input';
 import Button from '../../../components/Button/Button';
 import RelicarioLogo from '../../../assets/imgs/relicario-logo.svg';
 import './LoginPage.scss';
@@ -81,7 +81,7 @@ const Login = () => {
                 required
               />
               <Button
-                text="Login"
+                text="Ingresar"
                 type="submit"
                 color="primary"
                 textColor="text.secondary"
@@ -103,7 +103,10 @@ const Login = () => {
               />
             </Box>
             <Typography variant="body2" sx={{ mt: 2 }}>
-              No tienes una cuenta? <a href="/register">Regístrate</a>
+              ¿No tenés una cuenta? <a href="/register">Registrate</a>
+            </Typography>
+            <Typography variant="body2" sx={{ mt: 2 }}>
+              ¿Olvidaste tu contraseña? <a href="/login">Recuperala</a>
             </Typography>
           </Box>
         </Box>

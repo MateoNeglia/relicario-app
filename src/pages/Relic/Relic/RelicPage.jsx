@@ -4,21 +4,24 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import { AuthContext } from '../../../context/AuthContext';
 import { getImageUrl } from '../../../utils/imageUtils';
+import { useNotification } from '../../../context/NotificationContext';
 import {
   Box,
   Card,
   Typography,
-  Button,
+  
   IconButton,
   Alert,
 } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import Button from '../../../components/Button/Button';
 import './RelicPage.scss';
 
 const RelicPage = ({ relicId, user, onNavigate }) => {
   const location = useLocation();
+  const { showNotification } = useNotification();
   const [relic, setRelic] = useState(null);
   const [isOwner, setIsOwner] = useState(false);
   const [liked, setLiked] = useState(false);
@@ -44,12 +47,10 @@ const RelicPage = ({ relicId, user, onNavigate }) => {
           headers: { Authorization: `Bearer ${accessToken}` },
         });
         const relicData = response.data;        
-        setRelic(relicData);
-        console.log("user", user);
-        console.log("relicData", relicData);
-        if (user?.id) {
-          setIsOwner(user.id === relicData.owner._id);
-          setLiked(relicData.likes.includes(user.id));
+        setRelic(relicData);        
+        if (user?._id) {
+          setIsOwner(user._id === relicData.owner._id);
+setLiked(relicData.likes.includes(user._id));
         }
         setLoading(false);
       } catch (err) {
@@ -75,9 +76,10 @@ const RelicPage = ({ relicId, user, onNavigate }) => {
         { headers: { Authorization: `Bearer ${accessToken}` } }
       );
       setRelic(response.data);
-      setLiked(response.data.likes.includes(user.id));
+      setLiked(response.data.likes.includes(user._id));
+      showNotification('Tu lista de favoritos fue actualizada', 'success');
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to toggle like');
+      showNotification(err.response?.data?.message || 'Hubo un error al agregar la reliquia a favoritos', 'error');      
     }
   };
 
@@ -142,9 +144,7 @@ const RelicPage = ({ relicId, user, onNavigate }) => {
                       <li>Año: {relic.year || 'Unknown'}</li>
                       <li>Me Gusta: {relic.likes.length || '0'}</li>
                     </ul>
-              <Typography variant="body1" color="textSecondary" paragraph>
-                {relic.description || 'No description available'}
-              </Typography>
+              
             </Box>
             
             <Box sx={{ display: 'flex', height: '100%', alignItems: 'center', justifyContent: 'space-between', mt: 2 }}>
@@ -155,7 +155,7 @@ const RelicPage = ({ relicId, user, onNavigate }) => {
                   startIcon={<ArrowBackIcon />}
                   onClick={handleBackClick}
                 >
-                  Back
+                  VOLVER
                 </Button>
               ) : (
                 <Box className='relic-actions'>
@@ -170,24 +170,28 @@ const RelicPage = ({ relicId, user, onNavigate }) => {
                     <Button
                       variant="contained"
                       color="secondary"
+                      text= {relic.owner?.username || 'Propietario'}
                       onClick={handleOwnerClick}
-                    >
-                      {relic.owner.username}
-                    </Button>
+                    />
+                    
                     <Button
                       variant="contained"
                       color="primary"
+                      text="Lo Quiero"
                       onClick={handleChatClick}
-                    >
-                      Lo Quiero
-                    </Button>
+                    />                     
                   </Box>
                   
                 </Box>
               )}
             </Box>
           </Box>
+          
         </Box>
+
+        <Typography variant="body1" color="primary" sx={{ mt: 3 }}>
+            {relic.description || 'Sin descripción disponible.'}
+        </Typography>
       </Card>
     </Box>
   );
