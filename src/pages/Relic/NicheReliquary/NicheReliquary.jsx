@@ -1,3 +1,4 @@
+
 import { useState, useContext, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../../context/AuthContext';
@@ -5,6 +6,8 @@ import Cookies from 'js-cookie';
 import axios from 'axios';
 import { getImageUrl } from '../../../utils/imageUtils';
 import DeleteDialog from '../../../components/DeleteDialog/DeleteDialog';
+import UpdateRelicDialog from '../../Relic/UpdateRelic/UpdateRelicDialog';
+import CreateRelicDialog from '../../Relic/CreateRelicDialog/CreateRelicDialog';
 import './NicheReliquary.scss';
 import Button from '../../../components/Button/Button';
 
@@ -18,6 +21,8 @@ const NicheReliquary = ({ reliquaryId }) => {
   const [error, setError] = useState('');
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [selectedRelicId, setSelectedRelicId] = useState(null);
+  const [isUpdateDialogOpen, setIsUpdateDialogOpen] = useState(false);
+  const [openCreateRelicDialog, setOpenCreateRelicDialog] = useState(false);
 
   useEffect(() => {
     console.log('NicheReliquary: user=', user, 'reliquaryId=', reliquaryId);
@@ -56,6 +61,53 @@ const NicheReliquary = ({ reliquaryId }) => {
     }
   };
 
+  const handleOpenUpdateDialog = (relicId) => {
+    setSelectedRelicId(relicId);
+    setIsUpdateDialogOpen(true);
+  };
+
+  const handleCloseUpdateDialog = () => {
+    setIsUpdateDialogOpen(false);
+    setSelectedRelicId(null);
+  };
+
+  const handleUpdateRelic = async () => {
+    try {
+      const accessToken = Cookies.get('accessToken');
+      const response = await axios.get(`/api/relics/${selectedRelicId}`, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      });
+      const updatedRelic = response.data;
+      setRelics(relics.map((relic) => (relic._id === updatedRelic._id ? updatedRelic : relic)));
+    } catch (error) {
+      setError('Error al refrescar la reliquia');
+    } finally {
+      handleCloseUpdateDialog();
+    }
+  };
+
+  const handleOpenCreateRelicDialog = () => {
+    setOpenCreateRelicDialog(true);
+  };
+
+  const handleCloseCreateRelicDialog = () => {
+    setOpenCreateRelicDialog(false);
+  };
+
+  const handleCreateRelic = async () => {
+    try {
+      const accessToken = Cookies.get('accessToken');
+      const response = await axios.get(`/api/relics/reliquary/${reliquaryId}`, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      });
+      setRelics(response.data.relics);
+    } catch (error) {
+      setError('Error al refrescar las reliquias');
+    } finally {
+      handleCloseCreateRelicDialog();
+    }
+  };
+
   return (
     <div className="niche-reliquary">
       <h2>Relicario de: {niche?.specific || 'Specific'}</h2>
@@ -78,7 +130,7 @@ const NicheReliquary = ({ reliquaryId }) => {
                     variant="contained"
                     color="primary"
                     text="Editar"
-                    onClick={() => navigate(`/relic/update/${relic._id}`)}
+                    onClick={() => handleOpenUpdateDialog(relic._id)}
                     style={{ marginRight: '10px' }}
                   />
                   <Button
@@ -98,7 +150,7 @@ const NicheReliquary = ({ reliquaryId }) => {
               variant="contained"
               color="primary"
               text="Add Relic"
-              onClick={() => navigate('/relic/add')}
+              onClick={handleOpenCreateRelicDialog}
             />
           </div>
         )}
@@ -114,6 +166,17 @@ const NicheReliquary = ({ reliquaryId }) => {
         onClose={handleCloseDeleteDialog}
         onConfirm={handleDeleteRelic}
         itemType="relic"
+      />
+      <UpdateRelicDialog
+        open={isUpdateDialogOpen}
+        onClose={handleCloseUpdateDialog}
+        relicId={selectedRelicId}
+        onUpdate={handleUpdateRelic}
+      />
+      <CreateRelicDialog
+        open={openCreateRelicDialog}
+        onClose={handleCloseCreateRelicDialog}
+        onCreate={handleCreateRelic}
       />
     </div>
   );

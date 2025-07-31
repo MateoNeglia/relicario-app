@@ -35,17 +35,14 @@ a h1 {
       flex: 1;      
       margin: 0 1rem;
       max-width: 720px;
+      background-color: palette.$primary-main;
       input {
-        width: 100%;
-        padding: 0.5rem 1rem;
-        border: 1px solid palette.$text-secondary;
+        width: 80%;
+        padding: 0.5rem 1rem;        
+        background-color: palette.$secondary-main;
         border-radius: 50px;
         font-size: 1rem;        
 
-        &:focus {
-          outline: none;
-          border-color: palette.$primary-main;
-        }
       }
     }
 

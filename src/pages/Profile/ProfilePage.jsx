@@ -1,3 +1,4 @@
+
 import { useState, useEffect, useContext } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
@@ -21,6 +22,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import DeleteDialog from '../../components/DeleteDialog/DeleteDialog';
 import AddNicheDialog from '../../components/AddNicheDialog/AddNicheDialog';
 import EditProfileDialog from '../../components/EditProfileDialog/EditProfileDialog';
+import CreateRelicDialog from '../Relic/CreateRelicDialog/CreateRelicDialog';
 import { getProfilePictureUrl } from '../../utils/imageUtils';
 import axios from 'axios';
 import Cookies from 'js-cookie';
@@ -115,16 +117,14 @@ const ProfileHeader = ({ profileUser, isOwnProfile, onMenuAction, onLogout }) =>
             </Menu>
           </Box>
         </Box>
-        
-          <Box className="profile-buttons">
-            <Button
-              variant="contained"
-              text={isOwnProfile ? "Mensajes" : "Enviar Mensaje"}
-              color="primary"
-              onClick={() => navigate('/chat/' + profileUser._id)}
-            />
-          </Box>
-        
+        <Box className="profile-buttons">
+          <Button
+            variant="contained"
+            text={isOwnProfile ? "Mensajes" : "Enviar Mensaje"}
+            color="primary"
+            onClick={() => navigate('/chat/' + profileUser._id)}
+          />
+        </Box>
       </Box>
     </Box>
   );
@@ -244,7 +244,7 @@ const ReviewsSection = ({ reviews }) => (
 );
 
 // Main ProfilePage Component
-const ProfilePage = ({userId}) => {
+const ProfilePage = ({ userId }) => {
   const navigate = useNavigate();
   const { user, updateUser, updateNiches, logout } = useContext(AuthContext);
   const { showNotification } = useNotification();
@@ -258,6 +258,7 @@ const ProfilePage = ({userId}) => {
   const [nicheIndexToDelete, setNicheIndexToDelete] = useState(null);
   const [openNicheModal, setOpenNicheModal] = useState(false);
   const [openEditProfileModal, setOpenEditProfileModal] = useState(false);
+  const [openCreateRelicDialog, setOpenCreateRelicDialog] = useState(false);
   const [niches, setNiches] = useState({});
 
   useEffect(() => {
@@ -306,7 +307,7 @@ const ProfilePage = ({userId}) => {
       await updateNiches(updatedNiches);
       showNotification('Nicho eliminado exitosamente', 'success');
     } catch (err) {
-      showNotification(err.message || 'Error al eliminar nicho', 'error');      
+      showNotification(err.message || 'Error al eliminar nicho', 'error');
     }
   };
 
@@ -378,6 +379,18 @@ const ProfilePage = ({userId}) => {
   const handleNicheModalClose = () => setOpenNicheModal(false);
   const handleEditProfileModalClose = () => setOpenEditProfileModal(false);
 
+  const handleOpenCreateRelicDialog = () => {
+    setOpenCreateRelicDialog(true);
+  };
+
+  const handleCloseCreateRelicDialog = () => {
+    setOpenCreateRelicDialog(false);
+  };
+
+  const handleCreateRelic = () => {
+    handleCloseCreateRelicDialog();
+  };
+
   if (isLoading) return <Typography>Cargando perfil...</Typography>;
   if (fetchError) return <Typography color="error">{fetchError}</Typography>;
   if (!profileUser) return <Typography>Usuario no encontrado</Typography>;
@@ -416,7 +429,7 @@ const ProfilePage = ({userId}) => {
         isOwnProfile={isOwnProfile}
         profileUserId={profileUser._id}
         onAddNiche={handleNicheModalOpen}
-        onAddRelic={() => navigate('/relic/add')}
+        onAddRelic={handleOpenCreateRelicDialog}
         onViewReliquary={() => navigate('/reliquary')}
         onViewFavourites={() => navigate('/favourites')}
       />
@@ -442,6 +455,12 @@ const ProfilePage = ({userId}) => {
         onClose={handleEditProfileModalClose}
         user={user}
         onUpdateUser={handleUpdateUser}
+      />
+
+      <CreateRelicDialog
+        open={openCreateRelicDialog}
+        onClose={handleCloseCreateRelicDialog}
+        onCreate={handleCreateRelic}
       />
     </Box>
   );

@@ -12,7 +12,8 @@ import AddRelicPage from '../../pages/Relic/AddRelic/AddRelicPage';
 import UpdateRelicPage from '../../pages/Relic/UpdateRelic/UpdateRelicPage';
 import Reliquary from '../../pages/Relic/Reliquary/Reliquary';
 import NicheReliquary from '../../pages/Relic/NicheReliquary/NicheReliquary';
-import MainControlPanel from '../../pages/panel/MainControlPanel';
+import MainControlPanel from '../../pages/Panel/MainControlPanel';
+import RelicControlPanel from '../../pages/Panel/RelicControlPanel/RelicControlPanel';
 import RelicPage from '../../pages/Relic/Relic/RelicPage';
 import FavouritesPage from '../../pages/Profile/Favourites/FavouritesPage';
 import ChatPage from '../../pages/Chat/ChatPage';
@@ -26,6 +27,7 @@ const MainLayout = ({ page }) => {
 
 //collector-profile
 
+
   if (!searchContext) {
     console.error('MainLayout: SearchContext is undefined');
     return <div>Error: SearchContext not available</div>;
@@ -38,7 +40,7 @@ const MainLayout = ({ page }) => {
     navigate('/search');
   };
 
-  const handleToggleView = (page) => {  
+  const handleToggleView = (page) => {      
     switch (page) {
       case 'landing':
         return <LandingPage />;
@@ -66,6 +68,8 @@ const MainLayout = ({ page }) => {
         return <ChatPage user={userContext.user} chatId={id} onNavigate={navigate} />;
       case 'admin':
         return <MainControlPanel />;
+      case 'relic-control':
+        return <RelicControlPanel />;
       default:        
         return <LandingPage />;
     }

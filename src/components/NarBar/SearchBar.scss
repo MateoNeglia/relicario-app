@@ -13,25 +13,20 @@
       border-radius: 50px;
       fieldset {
         border-color: palette.$secondary-main;
-      }
-      &:hover fieldset {
-        border-color: palette.$primary-main;
-      }
-      &.Mui-focused fieldset {
-        border-color: palette.$primary-main;
-      }
+      }      
     }
     .MuiInputBase-input {
-      padding: 8px 12px;
+      padding: 8px 40px 8px 12px;
       font-size: 0.875rem;
     }
   }
 
   .search-button {
-    color: palette.$secondary-main;
+    color: palette.$primary-main;
     
     &:hover {
       background-color: rgba(palette.$primary-main, 0.04);
+      color: palette.$primary-main;
     }
   }
 
@@ -83,20 +78,42 @@
 
 @media (max-width: 767px) {
   .search-bar {
-    flex-direction: column;
-    align-items: stretch;
+    flex-direction: row;
+    align-items: center;
     padding: 12px;
+    gap: 8px;
 
     .search-input {
-      min-width: 250px;
-      width: 100%;
+      min-width: 200px;
+      flex: 1;
+      
+      .MuiInputBase-input {
+        padding-right: 50px; // Give more space for the search icon
+      }
     }
 
-    .search-button,
-    .filter-button {
-      width: 100%;
-      margin-left: 0;
-      margin-top: 8px;
+    .search-button {
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 1;
+      margin: 0;
+      width: auto;
+    }
+
+    // Mobile filter buttons (icon only)
+    .mobile-filter-buttons {
+      display: flex;
+      gap: 4px;
+      flex-shrink: 0;
+      
+      .filter-button {
+        margin: 0;
+        width: 40px;
+        height: 40px;
+        min-width: 40px;
+      }
     }
   }
 }

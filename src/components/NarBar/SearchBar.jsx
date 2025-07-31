@@ -208,19 +208,44 @@ const SearchBar = ({ onSearch }) => {
       sx={{ display: 'flex', alignItems: 'center', gap: 1, position: 'relative' }}
       ref={searchBarRef}
     >
-      <TextField
-        value={query}
-        onChange={handleInputChange}
-        placeholder="Busca Coleccionables..."
-        variant="outlined"
-        size="small"
-        className="search-input"
-        sx={{ flex: 1 }}
-        inputProps={{ 'aria-label': 'Search collectibles' }}
-      />
-      {suggestionsLoading && (
-        <CircularProgress size={20} sx={{ position: 'absolute', right: 80, top: 10 }} />
-      )}
+      <Box sx={{ position: 'relative', flex: 1, display: 'flex', alignItems: 'center' }}>
+        <TextField
+          value={query}
+          onChange={handleInputChange}
+          placeholder="Busca Coleccionables..."
+          variant="outlined"
+          size="small"
+          className="search-input"
+          sx={{ flex: 1 }}
+          inputProps={{ 'aria-label': 'Search collectibles' }}
+        />
+        <IconButton 
+          type="submit" 
+          className="search-button" 
+          aria-label="search"
+          sx={{ 
+            position: 'absolute', 
+            right: 8, 
+            top: '50%', 
+            transform: 'translateY(-50%)',
+            zIndex: 1
+          }}
+        >
+          <SearchIcon />
+        </IconButton>
+        {suggestionsLoading && (
+          <CircularProgress 
+            size={20} 
+            sx={{ 
+              position: 'absolute', 
+              right: 48, 
+              top: '50%', 
+              transform: 'translateY(-50%)',
+              zIndex: 1
+            }} 
+          />
+        )}
+      </Box>
       {suggestionsError && (
         <Alert severity="error" className="suggestions-error" sx={{ my: 1 }}>
           {suggestionsError}
@@ -259,16 +284,56 @@ const SearchBar = ({ onSearch }) => {
           {nicheError}
         </Alert>
       )}
-      <IconButton type="submit" className="search-button" aria-label="search">
-        <SearchIcon />
-      </IconButton>
+             {/* Mobile icon buttons - positioned next to search input */}
+       <Box className="mobile-filter-buttons" sx={{ display: { xs: 'flex', sm: 'none' }, gap: 1 }}>
+         <IconButton 
+           variant="outlined" 
+           className="filter-button" 
+           onClick={handleOpenModal}
+           sx={{ 
+             border: '1px solid #d4cbc4',
+             color: '#d4cbc4',
+             '&:hover': { 
+               borderColor: '#48182f',
+               backgroundColor: 'rgba(72, 24, 47, 0.04)'
+             }
+           }}
+         >
+           <FilterAltIcon />
+         </IconButton>
+         <IconButton 
+           variant="outlined" 
+           className="filter-button" 
+           onClick={handleOpenSortModal}
+           sx={{ 
+             border: '1px solid #d4cbc4',
+             color: '#d4cbc4',
+             '&:hover': { 
+               borderColor: '#48182f',
+               backgroundColor: 'rgba(72, 24, 47, 0.04)'
+             }
+           }}
+         >
+           <FilterListIcon />
+         </IconButton>
+       </Box>
+      
+      {/* Desktop buttons */}
       <Button variant="outlined" className="filter-button" onClick={handleOpenModal} 
-        sx={{ ml: 1, '& .MuiSvgIcon-root': { fontSize: '20px', marginRight: '5px' } }}>
+        sx={{ 
+          ml: 1, 
+          display: { xs: 'none', sm: 'inline-flex' },
+          '& .MuiSvgIcon-root': { fontSize: '20px', marginRight: '5px' } 
+        }}>
         <FilterAltIcon />
         Filtros
       </Button>
       <Button variant="outlined" className="filter-button" onClick={handleOpenSortModal} 
-      sx={{ ml: 1, '& .MuiSvgIcon-root': { fontSize: '20px', marginRight: '5px' } }}>
+        sx={{ 
+          ml: 1, 
+          display: { xs: 'none', sm: 'inline-flex' },
+          '& .MuiSvgIcon-root': { fontSize: '20px', marginRight: '5px' } 
+        }}>
         <FilterListIcon />
         Ordenar
       </Button>

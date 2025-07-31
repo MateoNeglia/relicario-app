@@ -62,6 +62,7 @@ const MainControlPanel = () => {
     if (!user || user.role !== 'admin') {
       navigate('/');
     }
+    console.log('user', user);
   }, [user, navigate]);
 
   // Fetch paginated users
@@ -76,8 +77,7 @@ const MainControlPanel = () => {
         }
         const response = await axios.get(`/api/auth/admin/users?page=${page}&limit=${limit}`, {
           headers: { Authorization: `Bearer ${accessToken}` },
-        });
-        console.log('API response for /api/auth/admin/users:', response.data);
+        });        
         if (!Array.isArray(response.data.users)) {
           throw new Error('Expected an array of users, received: ' + JSON.stringify(response.data.users));
         }
@@ -266,9 +266,17 @@ const MainControlPanel = () => {
         variant="contained"
         color="primary"
         onClick={() => setOpenCreateDialog(true)}
+        sx={{ mb: 2, mr: 2 }}
+      >
+        Crear nuevo usuario
+      </Button>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={() => navigate('/admin/relic-control')}
         sx={{ mb: 2 }}
       >
-        Create New User
+        Ir al panel de control de reliquias
       </Button>
       <TableContainer component={Paper}>
         <Table>
@@ -315,7 +323,7 @@ const MainControlPanel = () => {
                       <EditIcon />
                     </IconButton>
                     <IconButton onClick={() => handleOpenDeleteDialog(user)}>
-                      <DeleteIcon />
+                      <DeleteIcon color="primary" />
                     </IconButton>
                   </TableCell>
                 </TableRow>

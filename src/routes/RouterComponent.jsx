@@ -66,6 +66,7 @@ export default function RouterComponent() {
           {/* rutas del admin */}
           <Route element={<AdminProtectedRoute />}>
             <Route path="/admin" element={<MainLayout page="admin" />} />
+            <Route path="/admin/relic-control" element={<MainLayout page="relic-control" />} />
           </Route>
 
           {/* ruta base para usuarios no autenticados */}

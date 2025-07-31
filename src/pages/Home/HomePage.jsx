@@ -1,8 +1,10 @@
 import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../context/AuthContext';
-import { Box, Typography, Grid, Card, CardMedia, CardContent, Chip } from '@mui/material';
-import { useNavigate, Link } from 'react-router-dom';
+import { Box, Typography, Grid, Card, CardMedia, CardContent, Chip, Button as MuiButton } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import Button from '../../components/Button/Button';
+import WhatsAppIcon from '@mui/icons-material/WhatsApp';
+import { WhatsappShareButton } from 'react-share'; // Ensure correct import
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { getImageUrl } from '../../utils/imageUtils';
@@ -13,6 +15,7 @@ const HomePage = () => {
   const [relics, setRelics] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchRecommendedRelics = async () => {
@@ -47,6 +50,14 @@ const HomePage = () => {
     fetchRecommendedRelics();
   }, []);
 
+  // WhatsApp share configuration
+  const shareUrl = 'https://relicario-app.com'; // Replace with your app's actual URL
+  const shareMessage = '¡Descubre Relicario, una app increíble para intercambiar coleccionables! Descárgala aquí:';
+
+  // Fallback manual WhatsApp link
+  const whatsappMessage = encodeURIComponent(`${shareMessage} ${shareUrl}`);
+  const whatsappLink = `https://wa.me/?text=${whatsappMessage}`;
+
   if (loading) {
     return <Typography>Cargando recomendaciones...</Typography>;
   }
@@ -63,14 +74,46 @@ const HomePage = () => {
             Recomendá Relicario a tu amigo <br />
             ¡y ganá los mejores premios!
           </Typography>
-          <Button
-            text="Recomendar"
-            component={Link}
-            to="/profile"
-            color="secondary"
-            textColor="primary"
+                     <WhatsappShareButton
+             url={shareUrl}
+             title={shareMessage}
+             separator=" "
+           >
+             <MuiButton
+               variant="contained"
+               size="large"
+               startIcon={<WhatsAppIcon />}
+               sx={{
+                 backgroundColor: '#d4cbc4', // secondary.main
+                 color: '#48182f', // primary.main
+                 borderRadius: '10px',
+                 '&:hover': { 
+                   backgroundColor: '#b0a8a1' // secondary.dark
+                 },
+               }}
+             >
+              Recomendar
+            </MuiButton>
+            </WhatsappShareButton>
+          {/* Fallback button if react-share fails */}
+          {/* Uncomment the following if react-share continues to cause issues */}
+          {/*
+          <MuiButton
+            variant="contained"
             size="large"
-          />
+            startIcon={<WhatsAppIcon />}
+            href={whatsappLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            sx={{
+              backgroundColor: '#25D366',
+              color: '#FFFFFF',
+              '&:hover': { backgroundColor: '#20b358' },
+            }}
+          >
+            Recomendar
+          </MuiButton>
+          */}
         </Box>
       </Box>
       <Box sx={{ maxWidth: 1200, mx: 'auto', p: 3 }}>
@@ -88,7 +131,7 @@ const HomePage = () => {
                     component="img"
                     image={getImageUrl(relic.picture)}
                     alt={relic.name}
-                    onClick={() => (window.location.href = `/relic/${relic._id}`)}
+                    onClick={() => navigate(`/relic/${relic._id}`)}
                     sx={{
                       height: 200,
                       width: '100%',
@@ -116,7 +159,7 @@ const HomePage = () => {
                       variant="contained"
                       color="primary"
                       sx={{ mt: 2, alignSelf: 'flex-start' }}
-                      onClick={() => (window.location.href = `/relic/${relic._id}`)}
+                      onClick={() => navigate(`/relic/${relic._id}`)}
                     >
                       Ver Detalles
                     </Button>

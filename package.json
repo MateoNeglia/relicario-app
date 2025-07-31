@@ -39,6 +39,7 @@
     "jwt-decode": "^4.0.0",
     "react-dropzone": "^14.3.8",
     "react-input-emoji": "^5.9.0",
+    "react-share": "^5.2.2",
     "socket.io-client": "^4.8.1"
   }
 }
