@@ -2,6 +2,7 @@ import { createContext, useState, useContext, useEffect } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { io } from 'socket.io-client';
+import { config } from '../environments/config';
 
 export const ChatContext = createContext();
 
@@ -108,7 +109,8 @@ const sendTextMessage = async (textMessage, user, setTextMessage) => {
 
 const [socket, setSocket] = useState(null);
 useEffect(() => {
-    const newSocket = io('https://relicario-socket.onrender.com/');
+    
+    const newSocket = io(config.SOCKET_URL);
     setSocket(newSocket);
     return () => {
         newSocket.disconnect();

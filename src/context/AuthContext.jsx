@@ -2,6 +2,7 @@ import { createContext, useState, useEffect } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { jwtDecode } from 'jwt-decode';
+import { config } from '../environments/config';
 
 export const AuthContext = createContext();
 
@@ -257,12 +258,12 @@ export const AuthProvider = ({ children }) => {
 
       Cookies.set('accessToken', accessToken, {
         expires: 1 / 24,
-        secure: process.env.NODE_ENV === 'production',
+        secure: config.NODE_ENV === 'production',
         sameSite: 'Strict',
       });
       Cookies.set('refreshToken', refreshToken, {
         expires: 7,
-        secure: process.env.NODE_ENV === 'production',
+        secure: config.NODE_ENV === 'production',
         sameSite: 'Strict',
       });
 
