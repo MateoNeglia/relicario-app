@@ -1,6 +1,7 @@
 import { createContext, useState } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import { config } from '../environments/config';
 
 export const SearchContext = createContext();
 
@@ -15,7 +16,7 @@ export const SearchProvider = ({ children }) => {
       const page = filters.page || 1;
       const accessToken = Cookies.get('accessToken');
       
-      const response = await axios.get('/api/relics', {
+      const response = await axios.get(`${config.BACKEND_URL}/relics`, {
         params: {
           name: query || undefined,
           page: page,

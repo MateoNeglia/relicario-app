@@ -9,6 +9,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import { getImageUrl } from '../../utils/imageUtils';
 import './HomePage.scss';
+import { config } from '../../environments/config';
 
 const HomePage = () => {
   const { user } = useContext(AuthContext);
@@ -27,7 +28,7 @@ const HomePage = () => {
           return;
         }
 
-        const response = await axios.get('/api/relics', {
+        const response = await axios.get(`${config.BACKEND_URL}/relics`, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },

@@ -14,7 +14,7 @@ export const ChatProvider = ({ children, user }) => {
             if (!user) return;
             try {
                 const accessToken = Cookies.get('accessToken');
-                const response = await axios.get(`/api/chats/${user?._id}`, {
+                const response = await axios.get(`${config.BACKEND_URL}/chats/${user?._id}`, {
                     headers: { Authorization: `Bearer ${accessToken}` },
                 });
                 setUserChats(response.data);
@@ -41,7 +41,7 @@ const createChat = async (firstId, secondId) => {
     };
     try {
         const accessToken = Cookies.get('accessToken'); 
-        const response = await axios.post(`/api/chats`, body, {
+        const response = await axios.post(`${config.BACKEND_URL}/chats`, body, {
             headers: { Authorization: `Bearer ${accessToken}` },
         });
         setUserChats((prev) => [...prev, response.data]);
@@ -60,7 +60,7 @@ useEffect(() => {
         
         try {
             const accessToken = Cookies.get('accessToken');
-            const response = await axios.get(`/api/messages/${currentChat}`, {
+            const response = await axios.get(`${config.BACKEND_URL}/messages/${currentChat}`, {
                 headers: { Authorization: `Bearer ${accessToken}` },
             });
             setMessages(response.data);
@@ -84,7 +84,7 @@ const sendTextMessage = async (textMessage, user, setTextMessage) => {
     };
     try {
         const accessToken = Cookies.get('accessToken');
-        const response = await axios.post(`/api/messages`, body, {
+        const response = await axios.post(`${config.BACKEND_URL}/messages`, body, {
             headers: { Authorization: `Bearer ${accessToken}` },
         });
         
@@ -183,7 +183,7 @@ const findChatById = async (currentChat) => {
     if (!currentChat) return;
     try {
         const accessToken = Cookies.get('accessToken');
-        const response = await axios.get(`/api/chats/find/by-id/${currentChat}`, {
+        const response = await axios.get(`${config.BACKEND_URL}/chats/find/by-id/${currentChat}`, {
             headers: { Authorization: `Bearer ${accessToken}` },
         });
         console.log('Chat encontrado por ID:', response.data);
