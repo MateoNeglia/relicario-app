@@ -6,6 +6,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import axios from 'axios';
 import { getImageUrl } from '../../utils/imageUtils';
 import './LandingPage.scss';
+import { config } from '../../environments/config';
 
 const LandingPage = () => {
   const [relics, setRelics] = useState([]);
@@ -16,7 +17,7 @@ const LandingPage = () => {
   useEffect(() => {
     const fetchRelics = async () => {
       try {
-        const response = await axios.get('/api/relics', {
+        const response = await axios.get(`${config.BACKEND_URL}/relics`, {
           params: {
             limit: 6,
           },
