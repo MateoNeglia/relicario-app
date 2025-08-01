@@ -10,7 +10,7 @@ export default defineConfig({
     open: true,
     proxy: {
       '/api': {
-        target: 'http://localhost:8081',
+        target: 'https://aplicaciones-hibridas-parcial-1-neglia.onrender.com/',
         changeOrigin: true,
         secure: false,
       },

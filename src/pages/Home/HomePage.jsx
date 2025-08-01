@@ -155,14 +155,14 @@ const HomePage = () => {
                         Propietario: <b>{relic.owner.username}</b>
                       </Typography>
                     </Box>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      sx={{ mt: 2, alignSelf: 'flex-start' }}
-                      onClick={() => navigate(`/relic/${relic._id}`)}
-                    >
-                      Ver Detalles
-                    </Button>
+                       <Button
+                       variant="contained"
+                       color="primary"
+                       sx={{ mt: 2, alignSelf: 'flex-start' }}
+                       onClick={() => navigate(`/relic/${relic._id}`)}
+                     >
+                       Ver Detalles
+                     </Button>
                   </CardContent>
                 </Card>
               </Grid>

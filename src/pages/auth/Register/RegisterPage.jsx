@@ -111,21 +111,21 @@ const RegisterPage = () => {
               textColor="text.secondary"
             />
           </Box>
-          <Box className="google-login-wrapper">
-            <GoogleLogin
-              onSuccess={handleGoogleSuccess}
-              onError={handleGoogleError}
-              render={(renderProps) => (
-                <Button
-                  text="Sign in with Google"
-                  onClick={renderProps.onClick}
-                  disabled={renderProps.disabled}
-                  color="primary.light" 
-                  textColor="text.primary"
-                />
-              )}
-            />
-          </Box>
+                     <Box className="google-login-wrapper">
+             <GoogleLogin
+               onSuccess={handleGoogleSuccess}
+               onError={handleGoogleError}
+               render={(renderProps) => (
+                 <Button
+                   text="Sign in with Google"
+                   onClick={renderProps.onClick}
+                   disabled={renderProps.disabled}
+                   color="primary.light" 
+                   textColor="text.primary"
+                 />
+               )}
+             />
+           </Box>
           <Typography variant="body2" sx={{ mt: 2 }}>
             ¿Ya tenés una cuenta? <a href="/login">Ingresar</a>
           </Typography>
