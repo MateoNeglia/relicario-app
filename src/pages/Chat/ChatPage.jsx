@@ -124,17 +124,17 @@ const ChatPage = ({ user, chatId, onNavigate }) => {
           <Box key={chat._id} className="chat-list-item" onClick={() => handleChatNavigation(chat.members[0].id, chat._id)}>
             <Avatar
               className="profile-avatar"
-              alt={chat.members[0].username || 'User'}
-              src={getProfilePictureUrl(chat.members[0].profilePicture) || '/static/images/avatar/1.jpg'}
+              alt={chat?.members[0]?.username || 'User'}
+              src={getProfilePictureUrl(chat?.members[0]?.profilePicture) || '/static/images/avatar/1.jpg'}
               sx={{ width: 40, height: 40, marginRight: 2 }}
             />
-            <Typography variant="h6" className="chat-list-item-title">{chat.members[0].username}</Typography>
+            <Typography variant="h6" className="chat-list-item-title">{chat?.members[0]?.username}</Typography>
             <Box
                  sx={{
                    width: 10,
                    height: 10,
                    borderRadius: '50%',
-                   backgroundColor: handleOnlineStatus(chat.members[0].id) ? '#4CAF50' : '#9E9E9E',
+                   backgroundColor: handleOnlineStatus(chat?.members[0]?.id) ? '#4CAF50' : '#9E9E9E',
                    marginLeft: 1
                  }}
                />
