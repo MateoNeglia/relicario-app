@@ -38,7 +38,7 @@ export const AuthProvider = ({ children }) => {
         ) {
           originalRequest._retry = true;
           try {
-            const res = await axios.post('/api/auth/refresh', {
+            const res = await axios.post(`${config.BACKEND_URL}/api/auth/refresh`, {
               refreshToken: Cookies.get('refreshToken'),
             });
             const { accessToken, refreshToken } = res.data;
@@ -108,7 +108,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (identifier, password) => {
     try {
-      const res = await axios.post('/api/auth/login', { identifier, password });
+      const res = await axios.post(`${config.BACKEND_URL}/api/auth/login`, { identifier, password });
       const { accessToken, refreshToken } = res.data;
       const decoded = isTokenValid(accessToken);
       if (!decoded) {
@@ -137,7 +137,7 @@ export const AuthProvider = ({ children }) => {
 
   const register = async (username, email, password, role = 'user', isAdmCreated = false) => {
     try {
-      const res = await axios.post('/api/auth/register', {
+      const res = await axios.post(`${config.BACKEND_URL}/api/auth/register`, {
         username,
         email,
         password,
@@ -197,7 +197,7 @@ export const AuthProvider = ({ children }) => {
       }));
 
       const res = await axios.patch(
-        '/api/auth/profile',
+        `${config.BACKEND_URL}/api/auth/profile`,
         { niches: cleanedNiches },
         { headers: { Authorization: `Bearer ${accessToken}` } }
       );
@@ -216,7 +216,7 @@ export const AuthProvider = ({ children }) => {
         throw new Error('Invalid or expired access token');
       }
 
-      const res = await axios.patch('/api/auth/profile', formData, {
+      const res = await axios.patch(`${config.BACKEND_URL}/api/auth/profile`, formData, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
@@ -236,7 +236,7 @@ export const AuthProvider = ({ children }) => {
       }
 
       const res = await axios.post(
-        '/api/auth/profile',
+        `${config.BACKEND_URL}/api/auth/profile`,
         { user: { _id: userId } },
         { headers: { Authorization: `Bearer ${accessToken}` } }
       );
@@ -249,7 +249,7 @@ export const AuthProvider = ({ children }) => {
 
   const googleLogin = async (credential) => {
     try {
-      const response = await axios.post('/api/auth/google', { credential });
+      const response = await axios.post(`${config.BACKEND_URL}/api/auth/google`, { credential });
       const { accessToken, refreshToken } = response.data;
       const decoded = isTokenValid(accessToken);
       if (!decoded) {
