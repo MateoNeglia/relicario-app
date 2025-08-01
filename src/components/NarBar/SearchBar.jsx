@@ -27,7 +27,7 @@ import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import useDebounce from '../../hooks/useDebounce.js';
 import './SearchBar.scss';
-
+import { config } from '../../environments/config';
 const SearchBar = ({ onSearch }) => {
   const [query, setQuery] = useState('');
   const [suggestions, setSuggestions] = useState([]);
@@ -77,7 +77,7 @@ const SearchBar = ({ onSearch }) => {
   useEffect(() => {
     const fetchNiches = async () => {
       try {
-        const response = await axios.get('/api/niche/niches');
+        const response = await axios.get(`${config.BACKEND_URL}/niche/niches`);
         if (response.data && typeof response.data === 'object' && !Array.isArray(response.data)) {
           setNiches(response.data);
         } else {
@@ -100,7 +100,7 @@ const SearchBar = ({ onSearch }) => {
       }
       setSuggestionsLoading(true);
       try {
-        const response = await axios.get('/api/relics/suggestions', {
+        const response = await axios.get(`${config.BACKEND_URL}/relics/suggestions`, {
           params: { query: debouncedQuery },
           headers: {
             'Content-Type': 'application/json',
