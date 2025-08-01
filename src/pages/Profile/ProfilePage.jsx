@@ -27,6 +27,7 @@ import { getProfilePictureUrl } from '../../utils/imageUtils';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import './ProfilePage.scss';
+import { config } from '../../environments/config';
 
 // ProfileHeader Component
 const ProfileHeader = ({ profileUser, isOwnProfile, onMenuAction, onLogout }) => {
@@ -267,7 +268,7 @@ const ProfilePage = ({ userId }) => {
         try {
           setIsLoading(true);
           const accessToken = Cookies.get('accessToken');
-          const response = await axios.get(`/api/auth/users/${userId}`, {
+          const response = await axios.get(`${config.BACKEND_URL}/auth/users/${userId}`, {
             headers: { Authorization: `Bearer ${accessToken}` },
           });
           setProfileUser(response.data);
@@ -284,7 +285,7 @@ const ProfilePage = ({ userId }) => {
 
     const fetchNiches = async () => {
       try {
-        const res = await axios.get('/api/niche/niches');
+        const res = await axios.get(`${config.BACKEND_URL}/niche/niches`);
         setNiches(res.data);
       } catch (err) {
         showNotification('Failed to fetch niches', 'error');
@@ -319,7 +320,7 @@ const ProfilePage = ({ userId }) => {
   const handleDeleteUser = async () => {
     try {
       const accessToken = Cookies.get('accessToken');
-      await axios.delete(`/api/users/${user._id}`, {
+      await axios.delete(`${config.BACKEND_URL}/users/${user._id}`, {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
       showNotification('Cuenta eliminada exitosamente', 'success');
