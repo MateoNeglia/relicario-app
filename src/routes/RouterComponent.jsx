@@ -7,7 +7,7 @@ import AdminProtectedRoute from '../utils/AdminProtectedRoute';
 import RegisterPage from '../pages/auth/Register/RegisterPage';
 import LoginPage from '../pages/auth/Login/LoginPage';
 import MainLayout from '../layouts/MainLayout/MainLayout';
-
+import LoadingSpinner from '../components/LoadingSpinner';
 
 const ResetPassword = () => <div>Reset Password (TBD)</div>;
 const ForgotPassword = () => <div>Forgot Password (TBD)</div>;
@@ -17,7 +17,7 @@ export default function RouterComponent() {
   const { user, loading } = useContext(AuthContext);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <LoadingSpinner size="large" text="Cargando..." color="primary" />;
   }
   return (
     <ChatProvider user={user}>

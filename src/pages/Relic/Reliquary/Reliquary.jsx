@@ -5,6 +5,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import Button from '../../../components/Button/Button';
 import { config } from '../../../environments/config';
+import LoadingSpinner from '../../../components/LoadingSpinner';
 
 const Reliquary = () => {
   const { user } = useContext(AuthContext);
@@ -12,7 +13,7 @@ const Reliquary = () => {
   const [reliquary, setReliquary] = useState([]);
   const [error, setError] = useState('');
   const hasFetched = useRef(false);
-
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     if (!user) {
       navigate('/login');
@@ -34,6 +35,7 @@ const Reliquary = () => {
         },
       });
       setReliquary(response.data);
+      setLoading(false);
     } catch (error) {
       setError(error.response?.data?.message || 'Error fetching reliquary data');
     }
@@ -42,6 +44,7 @@ const Reliquary = () => {
   return (
     <div className="">
       <h2 color='primary'>Relicarios de {user?.username || 'Usuario'}</h2>
+      {loading && <LoadingSpinner size="large" text="Cargando..." color="primary" />}
       {error && <p className="error">{error}</p>}
       <div>
         {reliquary.length > 0 ? (

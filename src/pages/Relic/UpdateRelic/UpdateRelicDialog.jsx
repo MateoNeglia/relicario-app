@@ -5,7 +5,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import { useNotification } from '../../../context/NotificationContext';
 import { config } from '../../../environments/config';
-
+import LoadingSpinner from '../../../components/LoadingSpinner';
 const UpdateRelicDialog = ({ open, onClose, relicId, onUpdate }) => {
   const [initialData, setInitialData] = useState(null);
   const [error, setError] = useState('');
@@ -109,7 +109,7 @@ const UpdateRelicDialog = ({ open, onClose, relicId, onUpdate }) => {
             onClose={onClose}
           />
         ) : (
-          <p>Cargando...</p>
+          <LoadingSpinner size="large" text="Cargando..." color="primary" />
         )}
       </DialogContent>      
     </Dialog>

@@ -17,6 +17,7 @@ import Button from '../Button/Button';
 import axios from 'axios';
 import { getImageUrl } from '../../utils/imageUtils';
 import { config } from '../../environments/config';
+import LoadingSpinner from '../LoadingSpinner';
 
 const RelicForm = ({
   user,
@@ -149,7 +150,7 @@ const RelicForm = ({
       </Typography>
       {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
       {nicheError && <Alert severity="error" sx={{ mb: 2 }}>{nicheError}</Alert>}
-      {loadingNiches && <Typography sx={{ mb: 2 }}>Cargando nichos...</Typography>}
+      {loadingNiches && <LoadingSpinner size="large" text="Cargando nichos..." color="primary" />}
       <form onSubmit={handleFormSubmit}>
         <FormControl fullWidth margin="normal">
           <TextField
