@@ -79,7 +79,7 @@ const UpdateRelicDialog = ({ open, onClose, relicId, onUpdate }) => {
         formDataToSend.append('picture', selectedFile);
       }
 
-      await axios.patch(`/api/relics/${relicId}`, formDataToSend, {
+      await axios.patch(`${config.BACKEND_URL}/relics/${relicId}`, formDataToSend, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
           'Content-Type': 'multipart/form-data',

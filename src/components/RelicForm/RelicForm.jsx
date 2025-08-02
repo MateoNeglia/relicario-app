@@ -16,6 +16,7 @@ import {
 import Button from '../Button/Button';
 import axios from 'axios';
 import { getImageUrl } from '../../utils/imageUtils';
+import { config } from '../../environments/config';
 
 const RelicForm = ({
   user,
@@ -81,7 +82,7 @@ const RelicForm = ({
     const fetchNiches = async () => {
       try {
         setLoadingNiches(true);
-        const res = await axios.get('/api/niche/niches');
+        const res = await axios.get(`${config.BACKEND_URL}/niche/niches`);
         setAvailableNiches(res.data);
         setLoadingNiches(false);
       } catch (err) {
