@@ -18,6 +18,7 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Button from '../../../components/Button/Button';
 import './RelicPage.scss';
+import { config } from '../../../environments/config';
 
 const RelicPage = ({ relicId, user, onNavigate }) => {
   const location = useLocation();
@@ -43,7 +44,7 @@ const RelicPage = ({ relicId, user, onNavigate }) => {
           throw new Error('No access token found');
         }
         
-        const response = await axios.get(`/api/relics/${relicId}`, {
+        const response = await axios.get(`${config.BACKEND_URL}/relics/${relicId}`, {
           headers: { Authorization: `Bearer ${accessToken}` },
         });
         const relicData = response.data;        
@@ -71,7 +72,7 @@ setLiked(relicData.likes.includes(user._id));
     try {
       const accessToken = Cookies.get('accessToken');
       const response = await axios.post(
-        `/api/relics/${relicId}/like`,
+        `${config.BACKEND_URL}/relics/${relicId}/like`,
         {},
         { headers: { Authorization: `Bearer ${accessToken}` } }
       );

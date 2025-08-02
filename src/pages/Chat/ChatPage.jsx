@@ -24,6 +24,7 @@ import { Chat } from '@mui/icons-material';
 import { formatDateToSpanishShort } from '../../utils/dateUtils';
 import { getProfilePictureUrl } from '../../utils/imageUtils';
 import dayjs from 'dayjs';
+import { config } from '../../environments/config';
 
 const ChatPage = ({ user, chatId, onNavigate }) => {
   const [chatUser, setChatUser] = useState({});
@@ -55,7 +56,7 @@ const ChatPage = ({ user, chatId, onNavigate }) => {
     const findChat = async () => {
       const accessToken = Cookies.get('accessToken');
       console.log("findChat", user._id, sanitizedChatId);
-      const response = await axios.get(`/api/chats/${user._id}/${sanitizedChatId}`, {
+      const response = await axios.get(`${config.BACKEND_URL}/chats/${user._id}/${sanitizedChatId}`, {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
       console.log("response", response.data);
@@ -84,7 +85,7 @@ const ChatPage = ({ user, chatId, onNavigate }) => {
     
     const fetchChatList = async () => {
       const accessToken = Cookies.get('accessToken');
-      const response = await axios.get(`/api/chats/${user._id}`, {
+      const response = await axios.get(`${config.BACKEND_URL}/chats/${user._id}`, {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
       setChatList(response.data);

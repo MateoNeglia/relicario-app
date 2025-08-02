@@ -32,6 +32,8 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import './MainControlPanel.scss';
 import { getProfilePictureUrl } from '../../utils/imageUtils';
+import { config } from '../../environments/config';
+
 
 const MainControlPanel = () => {
   const { user, register } = useContext(AuthContext);
@@ -75,7 +77,7 @@ const MainControlPanel = () => {
         if (!accessToken) {
           throw new Error('No access token found. Please log in again.');
         }
-        const response = await axios.get(`/api/auth/admin/users?page=${page}&limit=${limit}`, {
+        const response = await axios.get(`${config.BACKEND_URL}/auth/admin/users?page=${page}&limit=${limit}`, {
           headers: { Authorization: `Bearer ${accessToken}` },
         });        
         if (!Array.isArray(response.data.users)) {
@@ -120,7 +122,7 @@ const MainControlPanel = () => {
       setFormData({ username: '', email: '', password: '', passwordConfirm: '', role: 'user' });
       showNotification('User created successfully', 'success');
       // Refresh user list for the current page
-      const response = await axios.get(`/api/auth/admin/users?page=${page}&limit=${limit}`, {
+      const response = await axios.get(`${config.BACKEND_URL}/auth/admin/users?page=${page}&limit=${limit}`, {
         headers: { Authorization: `Bearer ${Cookies.get('accessToken')}` },
       });
       if (Array.isArray(response.data.users)) {
@@ -151,7 +153,7 @@ const MainControlPanel = () => {
         throw new Error('No user selected for editing');
       }
 
-      const response = await axios.patch(`/api/auth/admin/users/${selectedUser._id}`, formData, {
+      const response = await axios.patch(`${config.BACKEND_URL}/auth/admin/users/${selectedUser._id}`, formData, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
           'Content-Type': 'multipart/form-data',
@@ -159,7 +161,7 @@ const MainControlPanel = () => {
       });
 
       // Refetch users to ensure the UI is up-to-date
-      const usersResponse = await axios.get(`/api/auth/admin/users?page=${page}&limit=${limit}`, {
+      const usersResponse = await axios.get(`${config.BACKEND_URL}/auth/admin/users?page=${page}&limit=${limit}`, {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
       if (Array.isArray(usersResponse.data.users)) {
@@ -206,11 +208,11 @@ const MainControlPanel = () => {
       if (!selectedUser?._id) {
         throw new Error('No user selected for deletion');
       }
-      await axios.delete(`/api/auth/users/${selectedUser._id}`, {
+      await axios.delete(`${config.BACKEND_URL}/auth/users/${selectedUser._id}`, {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
       // Refresh user list for the current page
-      const response = await axios.get(`/api/auth/admin/users?page=${page}&limit=${limit}`, {
+      const response = await axios.get(`${config.BACKEND_URL}/auth/admin/users?page=${page}&limit=${limit}`, {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
       if (Array.isArray(response.data.users)) {

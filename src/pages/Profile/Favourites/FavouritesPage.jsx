@@ -6,6 +6,7 @@ import { useNotification } from '../../../context/NotificationContext';
 import { Box, Typography, List, ListItem, ListItemText, Alert, Card, ListItemAvatar, Chip, Divider } from '@mui/material';
 import Button from '../../../components/Button/Button';
 import './FavouritesPage.scss';
+import { config } from '../../../environments/config';
 
 const FavouritesPage = ({ user, onNavigate }) => {
   const [likedRelics, setLikedRelics] = useState([]);
@@ -18,7 +19,7 @@ const FavouritesPage = ({ user, onNavigate }) => {
     const fetchLikedRelics = async () => {
       try {
         const accessToken = Cookies.get('accessToken');
-        const response = await axios.get(`/api/auth/users/${user._id}/liked-relics`, {
+        const response = await axios.get(`${config.BACKEND_URL}/auth/users/${user._id}/liked-relics`, {
           headers: { Authorization: `Bearer ${accessToken}` },
         });
         setLikedRelics(response.data);
@@ -37,7 +38,7 @@ const FavouritesPage = ({ user, onNavigate }) => {
   const handleRemoveRelic = async (relicId) => {
     try {
       const accessToken = Cookies.get('accessToken');
-      await axios.delete(`/api/auth/users/${user._id}/liked-relics/${relicId}`, {
+      await axios.delete(`${config.BACKEND_URL}/auth/users/${user._id}/liked-relics/${relicId}`, {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
       setLikedRelics((prev) => prev.filter((relic) => relic._id !== relicId));

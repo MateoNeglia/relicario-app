@@ -28,7 +28,7 @@ import '../MainControlPanel.scss';
 import { getProfilePictureUrl } from '../../../utils/imageUtils';
 //import UpdateRelicPage from '../../Relic/UpdateRelic/UpdateRelicPage';
 import UpdateRelicDialog from '../../Relic/UpdateRelic/UpdateRelicDialog';
-
+import { config } from '../../../environments/config';
 
 const RelicControlPanel = () => {
   const { user } = useContext(AuthContext);
@@ -63,7 +63,7 @@ const RelicControlPanel = () => {
         if (!accessToken) {
           throw new Error('No access token found. Please log in again.');
         }
-        const response = await axios.get(`/api/relics/admin/relics?page=${page}&limit=${limit}`, {
+        const response = await axios.get(`${config.BACKEND_URL}/relics/admin/relics?page=${page}&limit=${limit}`, {
           headers: { Authorization: `Bearer ${accessToken}` },
         });
         if (!Array.isArray(response.data.relics)) {
@@ -90,7 +90,7 @@ const RelicControlPanel = () => {
   const handleCreateRelic = async (formData) => {
     try {
       const accessToken = Cookies.get('accessToken');
-      await axios.post('/api/relics/add', formData, {
+      await axios.post(`${config.BACKEND_URL}/relics/add`, formData, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
           'Content-Type': 'multipart/form-data',
@@ -99,7 +99,7 @@ const RelicControlPanel = () => {
       setOpenCreateDialog(false);
       showNotification('Relic created successfully', 'success');
       // Refresh relic list
-      const response = await axios.get(`/api/relics/admin/relics?page=${page}&limit=${limit}`, {
+      const response = await axios.get(`${config.BACKEND_URL}/relics/admin/relics?page=${page}&limit=${limit}`, {
         headers: {	Field: `Bearer ${accessToken}` },
       });
       setRelics(response.data.relics);
@@ -126,14 +126,14 @@ const RelicControlPanel = () => {
   const handleDeleteRelic = async () => {
     try {
       const accessToken = Cookies.get('accessToken');
-      await axios.delete(`/api/relics/${selectedRelic._id}`, {
+      await axios.delete(`${config.BACKEND_URL}/relics/${selectedRelic._id}`, {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
       showNotification('Relic deleted successfully', 'success');
       // Close the delete dialog
       handleCloseDeleteDialog();
       // Refresh relic list
-      const response = await axios.get(`/api/relics/admin/relics?page=${page}&limit=${limit}`, {
+      const response = await axios.get(`${config.BACKEND_URL}/relics/admin/relics?page=${page}&limit=${limit}`, {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
       setRelics(response.data.relics);
