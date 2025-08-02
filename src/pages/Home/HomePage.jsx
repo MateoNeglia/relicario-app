@@ -3,8 +3,9 @@ import { AuthContext } from '../../context/AuthContext';
 import { Box, Typography, Grid, Card, CardMedia, CardContent, Chip, Button as MuiButton } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import Button from '../../components/Button/Button';
+import LoadingSpinner from '../../components/LoadingSpinner';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
-import { WhatsappShareButton } from 'react-share'; // Ensure correct import
+import { WhatsappShareButton } from 'react-share'; 
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { getImageUrl } from '../../utils/imageUtils';
@@ -60,7 +61,15 @@ const HomePage = () => {
   const whatsappLink = `https://wa.me/?text=${whatsappMessage}`;
 
   if (loading) {
-    return <Typography>Cargando recomendaciones...</Typography>;
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '50vh' }}>
+        <LoadingSpinner 
+          size="large" 
+          text="Cargando recomendaciones..." 
+          color="primary"
+        />
+      </Box>
+    );
   }
 
   if (error) {
@@ -80,41 +89,32 @@ const HomePage = () => {
              title={shareMessage}
              separator=" "
            >
-             <MuiButton
-               variant="contained"
-               size="large"
-               startIcon={<WhatsAppIcon />}
+             <Box
                sx={{
-                 backgroundColor: '#d4cbc4', // secondary.main
-                 color: '#48182f', // primary.main
+                 display: 'inline-flex',
+                 alignItems: 'center',
+                 gap: 1,
+                 backgroundColor: '#d4cbc4',
+                 color: '#48182f',
                  borderRadius: '10px',
+                 padding: '12px 24px',
+                 cursor: 'pointer',
+                 fontSize: '1rem',
+                 fontWeight: 500,
+                 textTransform: 'none',
                  '&:hover': { 
-                   backgroundColor: '#b0a8a1' // secondary.dark
+                   backgroundColor: '#b0a8a1'
                  },
+                 '&:active': {
+                   backgroundColor: '#a09891'
+                 }
                }}
              >
-              Recomendar
-            </MuiButton>
+               <WhatsAppIcon />
+               Recomendar
+             </Box>
             </WhatsappShareButton>
-          {/* Fallback button if react-share fails */}
-          {/* Uncomment the following if react-share continues to cause issues */}
-          {/*
-          <MuiButton
-            variant="contained"
-            size="large"
-            startIcon={<WhatsAppIcon />}
-            href={whatsappLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            sx={{
-              backgroundColor: '#25D366',
-              color: '#FFFFFF',
-              '&:hover': { backgroundColor: '#20b358' },
-            }}
-          >
-            Recomendar
-          </MuiButton>
-          */}
+
         </Box>
       </Box>
       <Box sx={{ maxWidth: 1200, mx: 'auto', p: 3 }}>

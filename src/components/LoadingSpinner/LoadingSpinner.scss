@@ -1,0 +1,44 @@
+.loading-spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  
+  // Smooth fade-in animation
+  animation: fadeIn 0.3s ease-in-out;
+  
+  // Pulse animation for the spinner
+  .MuiCircularProgress-root {
+    animation: pulse 2s ease-in-out infinite;
+  }
+}
+
+// Fade in animation
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Pulse animation
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .loading-spinner {
+    padding: 0.5rem;
+  }
+} 
