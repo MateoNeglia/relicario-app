@@ -17,6 +17,7 @@ const Login = () => {
     password: '',
   });
   const [error, setError] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -25,20 +26,26 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+    setIsSubmitting(true);
     try {
       await login(formData.identifier, formData.password);
       navigate('/');
     } catch (err) {
       setError(err.message || 'Login failed');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   const handleGoogleSuccess = async (credentialResponse) => {
     try {
+      setIsSubmitting(true);
       await googleLogin(credentialResponse.credential);
       navigate('/');
     } catch (err) {
       setError(err.message || 'Google login failed');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -85,6 +92,8 @@ const Login = () => {
                 type="submit"
                 color="primary"
                 textColor="text.secondary"
+                loading={isSubmitting}
+                disabled={isSubmitting}
               />
             </Box>
                          <Box className="google-login-wrapper">
@@ -92,13 +101,13 @@ const Login = () => {
                  onSuccess={handleGoogleSuccess}
                  onError={handleGoogleError}
                  render={(renderProps) => (
-                   <Button
-                     text="Sign in with Google"
-                     onClick={renderProps.onClick}
-                     disabled={renderProps.disabled}
-                     color="primary.light"
-                     textColor="text.primary"
-                   />
+                                    <Button
+                   text="Sign in with Google"
+                   onClick={renderProps.onClick}
+                   disabled={renderProps.disabled || isSubmitting}
+                   color="primary.light"
+                   textColor="text.primary"
+                 />
                  )}
                />
              </Box>

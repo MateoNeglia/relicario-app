@@ -19,6 +19,7 @@ const RegisterPage = () => {
     passwordConfirm: '',
   });
   const [error, setError] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -33,20 +34,26 @@ const RegisterPage = () => {
       return;
     }
 
+    setIsSubmitting(true);
     try {
       await register(formData.username, formData.email, formData.password);
       navigate('/');
     } catch (err) {
       setError(err.message || 'Registration failed');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   const handleGoogleSuccess = async (credentialResponse) => {
     try {
+      setIsSubmitting(true);
       await googleLogin(credentialResponse.credential);
       navigate('/profile');
     } catch (err) {
       setError(err.message || 'Google login failed');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -109,6 +116,8 @@ const RegisterPage = () => {
               type="submit"
               color="primary"
               textColor="text.secondary"
+              loading={isSubmitting}
+              disabled={isSubmitting}
             />
           </Box>
                      <Box className="google-login-wrapper">
@@ -119,7 +128,7 @@ const RegisterPage = () => {
                  <Button
                    text="Sign in with Google"
                    onClick={renderProps.onClick}
-                   disabled={renderProps.disabled}
+                   disabled={renderProps.disabled || isSubmitting}
                    color="primary.light" 
                    textColor="text.primary"
                  />
