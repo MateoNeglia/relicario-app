@@ -27,6 +27,12 @@ const RegisterPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // Prevent multiple submissions
+    if (isSubmitting) {
+      return;
+    }
+    
     setError('');
 
     if (formData.password !== formData.passwordConfirm) {
@@ -86,6 +92,7 @@ const RegisterPage = () => {
               value={formData.username}
               onChange={handleChange}
               required
+              disabled={isSubmitting}
             />
             <Input
               label="Email"
@@ -94,6 +101,7 @@ const RegisterPage = () => {
               value={formData.email}
               onChange={handleChange}
               required
+              disabled={isSubmitting}
             />
             <Input
               label="Password"
@@ -102,6 +110,7 @@ const RegisterPage = () => {
               value={formData.password}
               onChange={handleChange}
               required
+              disabled={isSubmitting}
             />
             <Input
               label="Confirm Password"
@@ -110,6 +119,7 @@ const RegisterPage = () => {
               value={formData.passwordConfirm}
               onChange={handleChange}
               required
+              disabled={isSubmitting}
             />
             <Button
               text="Registrarse"

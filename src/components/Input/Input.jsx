@@ -5,7 +5,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
-const Input = ({ label, name, type = 'text', value, onChange, required = false }) => {
+const Input = ({ label, name, type = 'text', value, onChange, required = false, disabled = false }) => {
   const [showPassword, setShowPassword] = useState(false);
 
   const handleClickShowPassword = () => {
@@ -24,6 +24,7 @@ const Input = ({ label, name, type = 'text', value, onChange, required = false }
       value={value}
       onChange={onChange}
       required={required}
+      disabled={disabled}
       fullWidth
       margin="normal"
       variant="outlined"
@@ -36,6 +37,7 @@ const Input = ({ label, name, type = 'text', value, onChange, required = false }
                 onClick={handleClickShowPassword}
                 onMouseDown={handleMouseDownPassword}
                 edge="end"
+                disabled={disabled}
               >
                 {showPassword ? <VisibilityOff /> : <Visibility />}
               </IconButton>

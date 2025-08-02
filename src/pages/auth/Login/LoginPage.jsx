@@ -25,6 +25,12 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // Prevent multiple submissions
+    if (isSubmitting) {
+      return;
+    }
+    
     setError('');
     setIsSubmitting(true);
     try {
@@ -78,6 +84,7 @@ const Login = () => {
                 value={formData.identifier}
                 onChange={handleChange}
                 required
+                disabled={isSubmitting}
               />
               <Input
                 label="Password"
@@ -86,6 +93,7 @@ const Login = () => {
                 value={formData.password}
                 onChange={handleChange}
                 required
+                disabled={isSubmitting}
               />
               <Button
                 text="Ingresar"
