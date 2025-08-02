@@ -8,10 +8,13 @@ import { config } from '../../../environments/config';
 
 const CreateRelicDialog = ({ open, onClose, onCreate }) => {
   const [error, setError] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { showNotification } = useNotification();
 
   const handleSubmit = async ({ formData, selectedFile }) => {
     try {
+      setIsSubmitting(true);
+      setError('');
       const accessToken = Cookies.get('accessToken');
       if (!accessToken) {
         setError('No estás autenticado. Por favor, inicia sesión.');
@@ -46,6 +49,8 @@ const CreateRelicDialog = ({ open, onClose, onCreate }) => {
       onClose();
     } catch (err) {
       setError(err.response?.data?.message || 'Error al añadir la reliquia. Intenta de nuevo.');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -59,6 +64,7 @@ const CreateRelicDialog = ({ open, onClose, onCreate }) => {
           submitButtonText="Añadir"
           title="Agrega una nueva Reliquia"
           onClose={onClose}
+          isSubmitting={isSubmitting}
         />
       </DialogContent>      
     </Dialog>

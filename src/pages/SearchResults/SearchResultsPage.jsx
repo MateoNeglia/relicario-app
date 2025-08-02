@@ -24,7 +24,7 @@ import {
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import './SearchResultsPage.scss';
-
+import LoadingSpinner from '../../components/LoadingSpinner';
 const SearchResults = () => {
   const { searchParams, searchResults, pagination, searchError, updateSearchParams } = useContext(SearchContext) || {};
   const { user } = useContext(AuthContext);
@@ -232,7 +232,7 @@ console.log('No access token or user ID found', { accessToken, userId: user?._id
           )}
         </>
       ) : (
-        <Typography variant="body1">No se encontraron resultados.</Typography>
+        <LoadingSpinner size="large" text="Cargando resultados..." color="primary" />
       )}
     </Box>
   );

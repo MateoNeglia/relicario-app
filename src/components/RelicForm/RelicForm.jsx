@@ -37,6 +37,7 @@ const RelicForm = ({
   submitButtonText = 'Añadir',
   title = 'Agrega una nueva Reliquia',
   onClose,
+  isSubmitting = false,
 }) => {
   const [formData, setFormData] = useState(initialData);
   const [selectedFile, setSelectedFile] = useState(null);
@@ -292,12 +293,15 @@ const RelicForm = ({
             variant="contained"
             color="primary"
             text={submitButtonText}
+            loading={isSubmitting}
+            disabled={isSubmitting}
           />
           <Button
             variant="outlined"
             color="primary"
             text="Cancelar"
             onClick={onClose}
+            disabled={isSubmitting}
           />
         </Box>
       </form>

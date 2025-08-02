@@ -11,6 +11,7 @@ const UpdateRelicPage = ({ relicId }) => {
   const { user } = useContext(AuthContext);
   const [initialData, setInitialData] = useState(null);
   const [error, setError] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { showNotification } = useNotification();
 
   useEffect(() => {
@@ -46,6 +47,8 @@ const UpdateRelicPage = ({ relicId }) => {
 
   const handleSubmit = async ({ formData, selectedFile }) => {
     try {
+      setIsSubmitting(true);
+      setError('');
       const accessToken = Cookies.get('accessToken');
       if (!accessToken) {
         setError('No estás autenticado. Por favor, inicia sesión.');
@@ -81,6 +84,8 @@ const UpdateRelicPage = ({ relicId }) => {
       navigate('/profile');
     } catch (err) {
       setError(err.response?.data?.message || 'Error al actualizar la reliquia. Intenta de nuevo.');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -97,6 +102,7 @@ const UpdateRelicPage = ({ relicId }) => {
       setError={setError}
       submitButtonText="Actualizar"
       title="Editar Reliquia"
+      isSubmitting={isSubmitting}
     />
   );
 };

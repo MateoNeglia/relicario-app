@@ -9,6 +9,7 @@ import LoadingSpinner from '../../../components/LoadingSpinner';
 const UpdateRelicDialog = ({ open, onClose, relicId, onUpdate }) => {
   const [initialData, setInitialData] = useState(null);
   const [error, setError] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { showNotification } = useNotification();
 
   useEffect(() => {
@@ -55,6 +56,8 @@ const UpdateRelicDialog = ({ open, onClose, relicId, onUpdate }) => {
 
   const handleSubmit = async ({ formData, selectedFile }) => {
     try {
+      setIsSubmitting(true);
+      setError('');
       const accessToken = Cookies.get('accessToken');
       if (!accessToken) {
         setError('No estás autenticado. Por favor, inicia sesión.');
@@ -91,6 +94,8 @@ const UpdateRelicDialog = ({ open, onClose, relicId, onUpdate }) => {
       onClose();
     } catch (err) {
       setError(err.response?.data?.message || 'Error al actualizar la reliquia. Intenta de nuevo.');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -107,6 +112,7 @@ const UpdateRelicDialog = ({ open, onClose, relicId, onUpdate }) => {
             submitButtonText="Actualizar"
             title="Editar Reliquia"
             onClose={onClose}
+            isSubmitting={isSubmitting}
           />
         ) : (
           <LoadingSpinner size="large" text="Cargando..." color="primary" />

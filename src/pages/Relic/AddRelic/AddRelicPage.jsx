@@ -10,10 +10,13 @@ const AddRelicPage = () => {
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
   const [error, setError] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { showNotification } = useNotification();
 
   const handleSubmit = async ({ formData, selectedFile }) => {
     try {
+      setIsSubmitting(true);
+      setError('');
       const accessToken = Cookies.get('accessToken');
       if (!accessToken) {
         setError('No estás autenticado. Por favor, inicia sesión.');
@@ -47,6 +50,8 @@ const AddRelicPage = () => {
       navigate('/profile');
     } catch (err) {
       showNotification(err.response?.data?.message || 'Error al añadir la reliquia. Intenta de nuevo.', 'error');      
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -58,6 +63,7 @@ const AddRelicPage = () => {
       setError={setError}
       submitButtonText="Añadir"
       title="Agrega una nueva Reliquia"
+      isSubmitting={isSubmitting}
     />
   );
 };
