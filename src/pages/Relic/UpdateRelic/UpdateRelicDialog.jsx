@@ -4,6 +4,7 @@ import RelicForm from '../../../components/RelicForm/RelicForm';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { useNotification } from '../../../context/NotificationContext';
+import { config } from '../../../environments/config';
 
 const UpdateRelicDialog = ({ open, onClose, relicId, onUpdate }) => {
   const [initialData, setInitialData] = useState(null);
@@ -19,7 +20,7 @@ const UpdateRelicDialog = ({ open, onClose, relicId, onUpdate }) => {
           setError('No estás autenticado. Por favor, inicia sesión.');
           return;
         }
-        const response = await axios.get(`/api/relics/${relicId}`, {
+        const response = await axios.get(`${config.BACKEND_URL}/relics/${relicId}`, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },

@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import Button from '../../../components/Button/Button';
-
+import { config } from '../../../environments/config';
 
 const Reliquary = () => {
   const { user } = useContext(AuthContext);
@@ -28,7 +28,7 @@ const Reliquary = () => {
       if (!accessToken) {
         throw new Error('No access token found');
       }
-      const response = await axios.get(`/api/relics/reliquary/${user._id}`, {
+      const response = await axios.get(`${config.BACKEND_URL}/relics/reliquary/${user._id}`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },

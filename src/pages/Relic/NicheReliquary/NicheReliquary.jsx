@@ -10,6 +10,7 @@ import UpdateRelicDialog from '../../Relic/UpdateRelic/UpdateRelicDialog';
 import CreateRelicDialog from '../../Relic/CreateRelicDialog/CreateRelicDialog';
 import './NicheReliquary.scss';
 import Button from '../../../components/Button/Button';
+import { config } from '../../../environments/config';
 
 const NicheReliquary = ({ reliquaryId }) => {
   const location = useLocation();
@@ -50,7 +51,7 @@ const NicheReliquary = ({ reliquaryId }) => {
         setError('No access token found');
         return;
       }
-      await axios.delete(`/api/relics/${selectedRelicId}`, {
+      await axios.delete(`${config.BACKEND_URL}/relics/${selectedRelicId}`, {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
       setRelics(relics.filter((relic) => relic._id !== selectedRelicId));
@@ -74,7 +75,7 @@ const NicheReliquary = ({ reliquaryId }) => {
   const handleUpdateRelic = async () => {
     try {
       const accessToken = Cookies.get('accessToken');
-      const response = await axios.get(`/api/relics/${selectedRelicId}`, {
+      const response = await axios.get(`${config.BACKEND_URL}/relics/${selectedRelicId}`, {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
       const updatedRelic = response.data;
@@ -97,7 +98,7 @@ const NicheReliquary = ({ reliquaryId }) => {
   const handleCreateRelic = async () => {
     try {
       const accessToken = Cookies.get('accessToken');
-      const response = await axios.get(`/api/relics/reliquary/${reliquaryId}`, {
+      const response = await axios.get(`${config.BACKEND_URL}/relics/reliquary/${reliquaryId}`, {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
       setRelics(response.data.relics);

@@ -4,6 +4,7 @@ import RelicForm from '../../../components/RelicForm/RelicForm';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { useNotification } from '../../../context/NotificationContext';
+import { config } from '../../../environments/config';
 
 const CreateRelicDialog = ({ open, onClose, onCreate }) => {
   const [error, setError] = useState('');
@@ -34,7 +35,7 @@ const CreateRelicDialog = ({ open, onClose, onCreate }) => {
         formDataToSend.append('picture', selectedFile);
       }
 
-      await axios.post('/api/relics/add', formDataToSend, {
+      await axios.post(`${config.BACKEND_URL}/relics/add`, formDataToSend, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
           'Content-Type': 'multipart/form-data',
