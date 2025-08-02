@@ -19,7 +19,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Button from '../../../components/Button/Button';
 import './RelicPage.scss';
 import { config } from '../../../environments/config';
-
+import LoadingSpinner from '../../../components/LoadingSpinner';
 const RelicPage = ({ relicId, user, onNavigate }) => {
   const location = useLocation();
   const { showNotification } = useNotification();
@@ -106,7 +106,7 @@ setLiked(relicData.likes.includes(user._id));
     return (
       <Box className="relic-page" sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
         <Typography variant="h6" color="primary">
-          Loading...
+          <LoadingSpinner size="large" text="Cargando..." color="primary" />
         </Typography>
       </Box>
     );

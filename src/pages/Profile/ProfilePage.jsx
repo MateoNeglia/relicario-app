@@ -28,7 +28,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import './ProfilePage.scss';
 import { config } from '../../environments/config';
-
+import LoadingSpinner from '../../components/LoadingSpinner';
 // ProfileHeader Component
 const ProfileHeader = ({ profileUser, isOwnProfile, onMenuAction, onLogout }) => {
   const navigate = useNavigate();
@@ -392,7 +392,7 @@ const ProfilePage = ({ userId }) => {
     handleCloseCreateRelicDialog();
   };
 
-  if (isLoading) return <Typography>Cargando perfil...</Typography>;
+  if (isLoading) return <LoadingSpinner size="large" text="Cargando perfil..." color="primary" />;
   if (fetchError) return <Typography color="error">{fetchError}</Typography>;
   if (!profileUser) return <Typography>Usuario no encontrado</Typography>;
 

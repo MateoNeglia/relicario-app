@@ -45,9 +45,9 @@ const Reliquary = () => {
     <div className="">
       <h2 color='primary'>Relicarios de {user?.username || 'Usuario'}</h2>
       {loading && <LoadingSpinner size="large" text="Cargando..." color="primary" />}
-      {error && <p className="error">{error}</p>}
+      {(error || !loading) && <p className="error">{error}</p>}
       <div>
-        {reliquary.length > 0 ? (
+        {!loading && reliquary.length > 0 ? (
           reliquary.map((niche) => (
             <Button
               variant="outlined"

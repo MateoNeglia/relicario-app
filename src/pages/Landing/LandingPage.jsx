@@ -7,6 +7,7 @@ import axios from 'axios';
 import { getImageUrl } from '../../utils/imageUtils';
 import './LandingPage.scss';
 import { config } from '../../environments/config';
+import LoadingSpinner from '../../components/LoadingSpinner';
 
 const LandingPage = () => {
   const [relics, setRelics] = useState([]);
@@ -87,7 +88,7 @@ const LandingPage = () => {
           Descubrí la Reliquia que te está esperando
         </Typography>
         {loading ? (
-          <Typography>Cargando reliquias...</Typography>
+          <LoadingSpinner size="large" text="Cargando reliquias..." color="primary" />
         ) : error ? (
           <Typography color="error">{error}</Typography>
         ) : relics.length === 0 ? (
