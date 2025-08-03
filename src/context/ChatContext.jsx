@@ -8,6 +8,7 @@ export const ChatContext = createContext();
 
 export const ChatProvider = ({ children, user }) => {
     const [userChats, setUserChats] = useState([]);
+    const [isCreatingChat, setIsCreatingChat] = useState(false);
 
     useEffect(() => {
         const getUserChats = async () => {
@@ -34,19 +35,61 @@ const updateCurrentchat = (chat) => {
 }	
 
 const createChat = async (firstId, secondId) => {
-    if (!firstId || !secondId) return;
-    let body = {
-        firstId, 
-        secondId,
-    };
+    if (!firstId || !secondId || isCreatingChat) return;
+    
+    setIsCreatingChat(true);
+    
     try {
+        // Check if chat already exists in local state
+        const existingChat = userChats.find(chat => 
+            chat.members && 
+            chat.members.some(member => member.id === firstId) &&
+            chat.members.some(member => member.id === secondId)
+        );
+        
+        if (existingChat) {
+            console.log("Chat already exists in local state:", existingChat);
+            updateCurrentchat(existingChat._id);
+            return;
+        }
+        
+        let body = {
+            firstId, 
+            secondId,
+        };
+        
         const accessToken = Cookies.get('accessToken'); 
         const response = await axios.post(`${config.BACKEND_URL}/chats`, body, {
             headers: { Authorization: `Bearer ${accessToken}` },
         });
         setUserChats((prev) => [...prev, response.data]);
+        updateCurrentchat(response.data._id);
       } catch (err) {
-        console.error('Failed to create chat:', err);
+        // If the error is due to duplicate chat, try to find the existing chat
+        if (err.response?.status === 409 || err.response?.data?.message?.includes('already exists')) {
+            console.log("Chat already exists on server, fetching existing chat");
+            try {
+                const existingChatResponse = await axios.get(`${config.BACKEND_URL}/chats/${firstId}/${secondId}`, {
+                    headers: { Authorization: `Bearer ${accessToken}` },
+                });
+                if (existingChatResponse.data) {
+                    setUserChats((prev) => {
+                        const chatExists = prev.some(chat => chat._id === existingChatResponse.data._id);
+                        if (!chatExists) {
+                            return [...prev, existingChatResponse.data];
+                        }
+                        return prev;
+                    });
+                    updateCurrentchat(existingChatResponse.data._id);
+                }
+            } catch (fetchError) {
+                console.error('Failed to fetch existing chat:', fetchError);
+            }
+        } else {
+            console.error('Failed to create chat:', err);
+        }
+      } finally {
+        setIsCreatingChat(false);
       }
 };
 
@@ -203,7 +246,8 @@ return (
         updateCurrentchat,        
         messages, 
         sendTextMessage, 
-        onlineUsers
+        onlineUsers,
+        isCreatingChat
       }}
     >
       {children}

@@ -16,6 +16,7 @@ import {
   ListItemAvatar,
   ListItemText,
   Card,
+  CircularProgress,
 } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import InputEmoji from 'react-input-emoji';
@@ -33,7 +34,8 @@ const ChatPage = ({ user, chatId, onNavigate }) => {
     updateCurrentchat,    
     sendTextMessage, 
     messages, 
-    onlineUsers
+    onlineUsers,
+    isCreatingChat
   } = useChat();
   const navigate = useNavigate();
   const sanitizedChatId = chatId?.trim();
@@ -51,7 +53,37 @@ const ChatPage = ({ user, chatId, onNavigate }) => {
   }, [messages]);
   
   useEffect(() => {
-    createChat(user._id, sanitizedChatId);
+    const checkAndCreateChat = async () => {
+      if (!user._id || !sanitizedChatId || sanitizedChatId === user._id.toString() || isCreatingChat) {
+        return;
+      }
+
+      try {
+        const accessToken = Cookies.get('accessToken');
+        
+        // First, try to find an existing chat between these two users
+        const existingChatResponse = await axios.get(`${config.BACKEND_URL}/chats/${user._id}/${sanitizedChatId}`, {
+          headers: { Authorization: `Bearer ${accessToken}` },
+        });
+        
+        // If chat exists, just update the current chat
+        if (existingChatResponse.data) {
+          console.log("Existing chat found:", existingChatResponse.data);
+          updateCurrentchat(existingChatResponse.data._id);
+          return;
+        }
+      } catch (error) {
+        // If the chat doesn't exist (404 error), create a new one
+        if (error.response?.status === 404) {
+          console.log("No existing chat found, creating new chat");
+          createChat(user._id, sanitizedChatId);
+        } else {
+          console.error("Error checking for existing chat:", error);
+        }
+      }
+    };
+
+    checkAndCreateChat();
 
     const findChat = async () => {
       const accessToken = Cookies.get('accessToken');
@@ -167,18 +199,21 @@ const ChatPage = ({ user, chatId, onNavigate }) => {
                
             </Box>
             <Box className="chat-messages">
-              {
-                messages.length <= 0 ? (
-                  <Typography variant="body1" className="chat-messages-empty">Aún no hay mensajes en esta conversación.</Typography>
-                ) : (
-                  messages.map((message, index) => (
-                    <Box ref={scrollRef} key={`${message._id}-${index}`} className={`chat-message ${message.senderId === user._id ? 'chat-message-sent' : 'chat-message-received'}`}>
-                      <Typography variant="body1" className="chat-message-text">{message.text}</Typography>
-                      <Typography variant="body1" className="chat-message-time">{dayjs(message.createdAt).format('HH:mm')}</Typography>
-                    </Box>
-                  ))
-                )
-              }
+              {isCreatingChat ? (
+                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '200px' }}>
+                  <CircularProgress />
+                  <Typography variant="body1" sx={{ ml: 2 }}>Creando conversación...</Typography>
+                </Box>
+              ) : messages.length <= 0 ? (
+                <Typography variant="body1" className="chat-messages-empty">Aún no hay mensajes en esta conversación.</Typography>
+              ) : (
+                messages.map((message, index) => (
+                  <Box ref={scrollRef} key={`${message._id}-${index}`} className={`chat-message ${message.senderId === user._id ? 'chat-message-sent' : 'chat-message-received'}`}>
+                    <Typography variant="body1" className="chat-message-text">{message.text}</Typography>
+                    <Typography variant="body1" className="chat-message-time">{dayjs(message.createdAt).format('HH:mm')}</Typography>
+                  </Box>
+                ))
+              )}
             </Box>
             <Box className="chat-input">
               <InputEmoji
@@ -187,8 +222,9 @@ const ChatPage = ({ user, chatId, onNavigate }) => {
                 cleanOnEnter
                 onEnter={handleSendMessage}
                 placeholder="Type a message"
+                disabled={isCreatingChat}
               />
-              <IconButton color="primary" onClick={handleSendMessage}>
+              <IconButton color="primary" onClick={handleSendMessage} disabled={isCreatingChat}>
                 <SendIcon />
               </IconButton>
             </Box>
