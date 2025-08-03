@@ -255,7 +255,7 @@ export const AuthProvider = ({ children }) => {
       if (!decoded) {
         throw new Error('Invalid access token');
       }
-
+  
       Cookies.set('accessToken', accessToken, {
         expires: 1 / 24,
         secure: config.NODE_ENV === 'production',
@@ -266,9 +266,9 @@ export const AuthProvider = ({ children }) => {
         secure: config.NODE_ENV === 'production',
         sameSite: 'Strict',
       });
-
+  
       axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
-      const userData = await getUserById(decoded.id);
+      const userData = await getUserById(decoded._id); 
       setUser(userData);
       return userData;
     } catch (err) {
