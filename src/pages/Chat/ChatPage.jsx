@@ -30,6 +30,7 @@ import { config } from '../../environments/config';
 const ChatPage = ({ user, chatId, onNavigate }) => {
   const [chatUser, setChatUser] = useState({});
   const [chatList, setChatList] = useState([]);
+  const [isLoadingChatUser, setIsLoadingChatUser] = useState(false);
   const { createChat, 
     updateCurrentchat,    
     sendTextMessage, 
@@ -51,6 +52,24 @@ const ChatPage = ({ user, chatId, onNavigate }) => {
       scrollRef.current.scrollIntoView({ behavior: 'smooth' });
     }
   }, [messages]);
+
+  // Fallback effect to set chat user if not set but we have a chatId
+  useEffect(() => {
+    if (sanitizedChatId && sanitizedChatId !== user._id.toString() && (!chatUser._id || chatUser._id === user._id)) {
+      // Try to get user info from the chat list if available
+      const chatFromList = chatList.find(chat => {
+        const otherUser = chat.members?.find(member => member.id !== user._id);
+        return otherUser && otherUser.id === sanitizedChatId;
+      });
+      
+      if (chatFromList) {
+        const otherUser = chatFromList.members.find(member => member.id !== user._id);
+        if (otherUser) {
+          setChatUser(otherUser);
+        }
+      }
+    }
+  }, [chatList, sanitizedChatId, user._id, chatUser._id]);
   
   useEffect(() => {
     const checkAndCreateChat = async () => {
@@ -70,6 +89,14 @@ const ChatPage = ({ user, chatId, onNavigate }) => {
         if (existingChatResponse.data) {
           console.log("Existing chat found:", existingChatResponse.data);
           updateCurrentchat(existingChatResponse.data._id);
+          
+          // Extract the other user's information from the chat data
+          if (existingChatResponse.data.members && existingChatResponse.data.members.length > 0) {
+            const otherUser = existingChatResponse.data.members.find(member => member.id !== user._id);
+            if (otherUser) {
+              setChatUser(otherUser);
+            }
+          }
           return;
         }
       } catch (error) {
@@ -86,29 +113,46 @@ const ChatPage = ({ user, chatId, onNavigate }) => {
     checkAndCreateChat();
 
     const findChat = async () => {
-      const accessToken = Cookies.get('accessToken');
-      console.log("findChat", user._id, sanitizedChatId);
-      const response = await axios.get(`${config.BACKEND_URL}/chats/${user._id}/${sanitizedChatId}`, {
-        headers: { Authorization: `Bearer ${accessToken}` },
-      });
-      console.log("response", response.data);
-      updateCurrentchat(response.data._id);
+      if (!sanitizedChatId || sanitizedChatId === user._id.toString()) {
+        return;
+      }
       
+      try {
+        const accessToken = Cookies.get('accessToken');
+        console.log("findChat", user._id, sanitizedChatId);
+        const response = await axios.get(`${config.BACKEND_URL}/chats/${user._id}/${sanitizedChatId}`, {
+          headers: { Authorization: `Bearer ${accessToken}` },
+        });
+        console.log("response", response.data);
+        updateCurrentchat(response.data._id);
+        
+        // Extract the other user's information from the chat data
+        if (response.data.members && response.data.members.length > 0) {
+          const otherUser = response.data.members.find(member => member.id !== user._id);
+          if (otherUser) {
+            setChatUser(otherUser);
+          }
+        }
+      } catch (error) {
+        console.error("Error finding chat:", error);
+      }
     }
 
     const fetchProfileUser = async () => {
       if (sanitizedChatId && sanitizedChatId !== user._id.toString()) {
+        setIsLoadingChatUser(true);
         try {
-          
           const accessToken = Cookies.get('accessToken');
-          const response = await axios.get(`/api/auth/users/${sanitizedChatId}`, {
+          const response = await axios.get(`${config.BACKEND_URL}/auth/users/${sanitizedChatId}`, {
             headers: { Authorization: `Bearer ${accessToken}` },
           });
           setChatUser(response.data);
         } catch (err) {
           console.error(err.response?.data?.message || 'Error fetching user profile');
+          // If we can't fetch the user profile, we can try to get it from the chat data
+          // This will be handled by the findChat function
         } finally {
-          
+          setIsLoadingChatUser(false);
         }
       } else {
         setChatUser(user);
@@ -141,7 +185,7 @@ const ChatPage = ({ user, chatId, onNavigate }) => {
   }
 
   const handleChatNavigation = (userId, chatId) => {    
-    navigate('/chat/ ' + userId);   
+    navigate('/chat/' + userId);   
     updateCurrentchat(chatId);
   }
 
@@ -153,27 +197,32 @@ const ChatPage = ({ user, chatId, onNavigate }) => {
   return (
     <Box className="chat-page">
       <Card className="chat-list">
-        {chatList.map((chat) => (
-          <Box key={chat._id} className="chat-list-item" onClick={() => handleChatNavigation(chat.members[0].id, chat._id)}>
-            <Avatar
-              className="profile-avatar"
-              alt={chat?.members[0]?.username || 'User'}
-              src={getProfilePictureUrl(chat?.members[0]?.profilePicture) || '/static/images/avatar/1.jpg'}
-              sx={{ width: 40, height: 40, marginRight: 2 }}
-            />
-            <Typography variant="h6" className="chat-list-item-title">{chat?.members[0]?.username}</Typography>
-            <Box
-                 sx={{
-                   width: 10,
-                   height: 10,
-                   borderRadius: '50%',
-                   backgroundColor: handleOnlineStatus(chat?.members[0]?.id) ? '#4CAF50' : '#9E9E9E',
-                   marginLeft: 1
-                 }}
-               />
-            <Typography variant="body1" className="chat-list-item-time">{formatDateToSpanishShort(chat.updatedAt)}</Typography>          
-          </Box>
-        ))}
+        {chatList.map((chat) => {
+          // Find the other user (not the logged-in user)
+          const otherUser = chat.members?.find(member => member.id !== user._id) || chat.members?.[0];
+          
+          return (
+            <Box key={chat._id} className="chat-list-item" onClick={() => handleChatNavigation(otherUser?.id, chat._id)}>
+              <Avatar
+                className="profile-avatar"
+                alt={otherUser?.username || 'User'}
+                src={getProfilePictureUrl(otherUser?.profilePicture) || '/static/images/avatar/1.jpg'}
+                sx={{ width: 40, height: 40, marginRight: 2 }}
+              />
+              <Typography variant="h6" className="chat-list-item-title">{otherUser?.username}</Typography>
+              <Box
+                   sx={{
+                     width: 10,
+                     height: 10,
+                     borderRadius: '50%',
+                     backgroundColor: handleOnlineStatus(otherUser?.id) ? '#4CAF50' : '#9E9E9E',
+                     marginLeft: 1
+                   }}
+                 />
+              <Typography variant="body1" className="chat-list-item-time">{formatDateToSpanishShort(chat.updatedAt)}</Typography>          
+            </Box>
+          );
+        })}
       </Card>
       {sanitizedChatId ? (
         sanitizedChatId === user._id.toString() ? (
@@ -193,10 +242,18 @@ const ChatPage = ({ user, chatId, onNavigate }) => {
         ) : (
           <Card className="chat-container">
             <Box className="chat-header">
-              <Avatar src={getProfilePictureUrl(chatUser.profilePicture) || '/static/images/avatar/1.jpg'} 
-              alt={chatUser.username} sx={{ width: 40, height: 40, marginRight: 2 }}  />
-                <Typography variant="h5" className="chat-header-title">{chatUser.username}</Typography>
-               
+              {isLoadingChatUser ? (
+                <>
+                  <CircularProgress size={40} sx={{ marginRight: 2 }} />
+                  <Typography variant="h5" className="chat-header-title">Cargando usuario...</Typography>
+                </>
+              ) : (
+                <>
+                  <Avatar src={getProfilePictureUrl(chatUser.profilePicture) || '/static/images/avatar/1.jpg'} 
+                  alt={chatUser.username} sx={{ width: 40, height: 40, marginRight: 2 }}  />
+                  <Typography variant="h5" className="chat-header-title">{chatUser.username}</Typography>
+                </>
+              )}
             </Box>
             <Box className="chat-messages">
               {isCreatingChat ? (
