@@ -42,7 +42,7 @@ const Reliquary = () => {
   };
 
   return (
-    <div className="">
+    <div className="" style={{ maxWidth: '1200px' }}>
       <h2 color='primary'>Relicarios de {user?.username || 'Usuario'}</h2>
       {loading && <LoadingSpinner size="large" text="Cargando..." color="primary" />}
       {(error || !loading) && <p className="error">{error}</p>}

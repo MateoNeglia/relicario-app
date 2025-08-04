@@ -5,7 +5,7 @@
     color: palette.$primary-main; 
     background-color: palette.$background-default;
     min-height: calc(100vh - 60px);
-
+    max-width: 1200px;
   .profile-header {
     background-color: palette.$background-paper; 
     padding: 1rem;

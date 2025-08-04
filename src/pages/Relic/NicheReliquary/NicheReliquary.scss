@@ -1,5 +1,6 @@
 @use '../../../styles/palette' as palette;
 .niche-reliquary {
+    max-width: 1200px;
     h2 {
         text-align: left;
         color: palette.$primary-main; 
