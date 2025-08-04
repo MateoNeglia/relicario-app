@@ -136,9 +136,9 @@ const RegisterPage = () => {
                onSuccess={handleGoogleSuccess}
                onError={handleGoogleError}
                text="Sign in with Google"
-               size="large"
-               shape="circle"
+               size="large"               
                theme="outline"
+               color="primary"
                width="100%"
                logo_alignment="left"
                type="standard"                              
