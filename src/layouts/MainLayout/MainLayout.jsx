@@ -40,7 +40,7 @@ const MainLayout = ({ page }) => {
     navigate('/search');
   };
 
-  const handleToggleView = (page) => {      
+  const renderPage = () => {
     switch (page) {
       case 'landing':
         return <LandingPage />;
@@ -79,7 +79,7 @@ const MainLayout = ({ page }) => {
     <Box className="main-layout">
       <NavBar pageType={page} onSearch={handleSearch} />
       <Box component="main" className="main-content">
-        {handleToggleView(page)}
+        {renderPage()}
       </Box>
     </Box>
   );

@@ -97,8 +97,6 @@ export const AuthProvider = ({ children }) => {
         } else {
           logout();
         }
-      } else {
-        console.log('restoreSession: No access token found');
       }
       setLoading(false);
     };
