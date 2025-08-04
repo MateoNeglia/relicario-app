@@ -100,9 +100,9 @@ const LandingPage = () => {
         ) : relics.length === 0 ? (
           <Typography>No hay reliquias disponibles para mostrar.</Typography>
         ) : (
-          <Grid className="landing-recomendations" spacing={3}>
+          <Grid container spacing={3} className="landing-recomendations">
             {relics.map((relic) => (
-              <Grid item xs={12} sm={6} md={4} key={relic._id}>
+              <Grid xs={12} sm={6} md={4} key={relic._id}>
                 <Card className='relic-card' >
                   <CardMedia
                     component="img"                    

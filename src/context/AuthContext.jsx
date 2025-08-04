@@ -56,9 +56,7 @@ export const AuthProvider = ({ children }) => {
             }
             const decoded = isTokenValid(accessToken);
             if (decoded) {
-              const userData = { _id: decoded.id, username: decoded.username, email: decoded.email, role: decoded.role };
-              console.log('interceptor - Setting user data:', userData);
-              setUser(userData);
+              setUser({ _id: decoded.id, username: decoded.username, email: decoded.email, role: decoded.role });
               originalRequest.headers.Authorization = `Bearer ${accessToken}`;
               axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
               return axios(originalRequest);
@@ -89,7 +87,6 @@ export const AuthProvider = ({ children }) => {
           try {
             axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
             const userData = await getUserById(decoded.id);
-            console.log('restoreSession - Setting user data:', userData);
             setUser(userData);
           } catch (err) {
             console.error('restoreSession: Error=', err.message);
@@ -129,7 +126,6 @@ export const AuthProvider = ({ children }) => {
 
       axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
       const userData = await getUserById(decoded.id);
-      console.log('login - Setting user data:', userData);
       setUser(userData);
       return userData;
     } catch (err) {
@@ -166,7 +162,6 @@ export const AuthProvider = ({ children }) => {
         axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
         const userData = await getUserById(decoded.id);
 
-        console.log('register - Setting user data:', userData);
         setUser(userData);
 
         return userData;
@@ -279,7 +274,6 @@ export const AuthProvider = ({ children }) => {
   
       axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
       const userData = await getUserById(decoded._id); 
-      console.log('googleLogin - Setting user data:', userData);
       setUser(userData);
       return userData;
     } catch (err) {
