@@ -64,8 +64,7 @@
     }
         
     // Target the actual Google button iframe
-    iframe {
-      width: 100% !important;
+    iframe {      
       max-width: none !important;
       min-width: 100% !important;
       html {
