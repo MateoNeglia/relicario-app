@@ -55,10 +55,9 @@
   .google-login-wrapper {
     margin-top: 1em;
     background-color: transparent !important;
-    width: 100%;
+    width: 100%;    
     
-    & > div,
-    & > iframe {
+    iframe {
       background-color: transparent !important;
       width: 100% !important;
       margin-right: auto;
