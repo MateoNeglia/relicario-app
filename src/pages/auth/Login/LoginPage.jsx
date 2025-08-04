@@ -136,35 +136,25 @@ const Login = () => {
                  )}
                />
              </Box>
-            <Box sx={{ mt: 2, display: 'flex', alignItems: 'center', gap: 1 }}>              
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>            
               <Button
-                text="Aún no tengo cuenta"
-                variant="text"
+                text="Aún no tengo una cuenta"
+                variant="outlined"
+                color="primary"
                 onClick={handleNavigateToRegister}
-                sx={{ 
-                  textTransform: 'none',
-                  color: 'primary.main',
-                  textDecoration: 'underline',
-                  minWidth: 'auto',
-                  padding: '4px 8px',
+                sx={{                  
                   '&:hover': { 
                     background: 'rgba(72, 24, 47, 0.04)',
                     textDecoration: 'underline'
                   }
                 }}
               />
-            </Box>
-            <Box sx={{ mt: 2, display: 'flex', alignItems: 'center', gap: 1 }}>              
               <Button
                 text="Olvidé mi contraseña"
-                variant="text"
+                variant="outlined"
+                color="primary"
                 onClick={handleNavigateToRecovery}
-                sx={{ 
-                  textTransform: 'none',
-                  color: 'primary.main',
-                  textDecoration: 'underline',
-                  minWidth: 'auto',
-                  padding: '4px 8px',
+                sx={{                  
                   '&:hover': { 
                     background: 'rgba(72, 24, 47, 0.04)',
                     textDecoration: 'underline'
