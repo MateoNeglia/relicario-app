@@ -60,13 +60,30 @@ const Login = () => {
     setError('Google login failed');
   };
 
+  const handleNavigateToRegister = () => {
+    navigate('/register');
+  };
+
+  const handleNavigateToRecovery = () => {
+    navigate('/login');
+  };
+
   return (
     <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
       <Box className="login-page">
         <Box className="navbar">
-          <a href="/">
+          <Button
+            text=""
+            onClick={() => navigate('/')}
+            sx={{ 
+              background: 'none', 
+              border: 'none', 
+              padding: 0,
+              '&:hover': { background: 'none' }
+            }}
+          >
             <h1 className="logo">Relicario</h1>
-          </a>          
+          </Button>          
         </Box>
         <Box className="form-section">
           <Box className="form-container">
@@ -119,12 +136,42 @@ const Login = () => {
                  )}
                />
              </Box>
-            <Typography variant="body2" sx={{ mt: 2 }}>
-              ¿No tenés una cuenta? <a href="/register">Registrate</a>
-            </Typography>
-            <Typography variant="body2" sx={{ mt: 2 }}>
-              ¿Olvidaste tu contraseña? <a href="/login">Recuperala</a>
-            </Typography>
+            <Box sx={{ mt: 2, display: 'flex', alignItems: 'center', gap: 1 }}>              
+              <Button
+                text="Aún no tengo cuenta"
+                variant="text"
+                onClick={handleNavigateToRegister}
+                sx={{ 
+                  textTransform: 'none',
+                  color: 'primary.main',
+                  textDecoration: 'underline',
+                  minWidth: 'auto',
+                  padding: '4px 8px',
+                  '&:hover': { 
+                    background: 'rgba(72, 24, 47, 0.04)',
+                    textDecoration: 'underline'
+                  }
+                }}
+              />
+            </Box>
+            <Box sx={{ mt: 2, display: 'flex', alignItems: 'center', gap: 1 }}>              
+              <Button
+                text="Olvidé mi contraseña"
+                variant="text"
+                onClick={handleNavigateToRecovery}
+                sx={{ 
+                  textTransform: 'none',
+                  color: 'primary.main',
+                  textDecoration: 'underline',
+                  minWidth: 'auto',
+                  padding: '4px 8px',
+                  '&:hover': { 
+                    background: 'rgba(72, 24, 47, 0.04)',
+                    textDecoration: 'underline'
+                  }
+                }}
+              />
+            </Box>
           </Box>
         </Box>
       </Box>

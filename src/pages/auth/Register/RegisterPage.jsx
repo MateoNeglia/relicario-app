@@ -68,12 +68,29 @@ const RegisterPage = () => {
     setError('Google login failed');
   };
 
+  const handleNavigateToLogin = () => {
+    navigate('/login');
+  };
+
+  const handleNavigateToRecovery = () => {
+    navigate('/login');
+  };
+
   return (
     <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
       <Box className="navbar">
-        <a href="/">
+        <Button
+          text=""
+          onClick={() => navigate('/')}
+          sx={{ 
+            background: 'none', 
+            border: 'none', 
+            padding: 0,
+            '&:hover': { background: 'none' }
+          }}
+        >
           <h1 className="logo">Relicario</h1>
-        </a>        
+        </Button>        
       </Box>
       <Box className="register-page">
         <Box className="image-section" />
@@ -153,12 +170,42 @@ const RegisterPage = () => {
                )}
              />
            </Box>
-          <Typography variant="body2" sx={{ mt: 2 }}>
-            ¿Ya tenés una cuenta? <a href="/login">Ingresar</a>
-          </Typography>
-          <Typography variant="body2" sx={{ mt: 2 }}>
-            ¿Olvidaste tu contraseña? <a href="/login">Recuperala</a>
-          </Typography>
+          <Box sx={{ mt: 2, display: 'flex', alignItems: 'center', gap: 1 }}>            
+            <Button
+              text="Ya tengo cuenta"
+              variant="text"
+              onClick={handleNavigateToLogin}
+              sx={{ 
+                textTransform: 'none',
+                color: 'primary.main',
+                textDecoration: 'underline',
+                minWidth: 'auto',
+                padding: '4px 8px',
+                '&:hover': { 
+                  background: 'rgba(72, 24, 47, 0.04)',
+                  textDecoration: 'underline'
+                }
+              }}
+            />
+          </Box>
+          <Box sx={{ mt: 2, display: 'flex', alignItems: 'center', gap: 1 }}>            
+            <Button
+              text="Olvidé mi contraseña"
+              variant="text"
+              onClick={handleNavigateToRecovery}
+              sx={{ 
+                textTransform: 'none',
+                color: 'primary.main',
+                textDecoration: 'underline',
+                minWidth: 'auto',
+                padding: '4px 8px',
+                '&:hover': { 
+                  background: 'rgba(72, 24, 47, 0.04)',
+                  textDecoration: 'underline'
+                }
+              }}
+            />
+          </Box>
         </Box>
       </Box>
     </GoogleOAuthProvider>

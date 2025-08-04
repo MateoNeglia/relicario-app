@@ -182,9 +182,9 @@ const RelicControlPanel = () => {
           {error}
         </Alert>
       )}
-      <Button variant="contained" color="primary" onClick={handleOpenCreateDialog} sx={{ mb: 2, mr: 2 }}>
+      {/* <Button variant="contained" color="primary" onClick={handleOpenCreateDialog} sx={{ mb: 2, mr: 2 }}>
         Create New Relic
-      </Button>
+      </Button> */}
       <Button variant="contained" color="primary" onClick={() => navigate('/admin')} sx={{ mb: 2 }}>
         Ir al panel de control de usuarios
       </Button>
