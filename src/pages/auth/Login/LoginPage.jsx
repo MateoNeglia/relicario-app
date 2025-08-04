@@ -122,7 +122,7 @@ const Login = () => {
                 disabled={isSubmitting}
               />
             </Box>
-                         <Box className="google-login-wrapper">
+              <Box className="google-login-wrapper">
                <GoogleLogin
                  onSuccess={handleGoogleSuccess}
                  onError={handleGoogleError}
@@ -136,13 +136,14 @@ const Login = () => {
                  )}
                />
              </Box>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>            
+            <Box sx={{ display: 'flex', flexDirection: 'column'}}>            
               <Button
                 text="Aún no tengo una cuenta"
                 variant="outlined"
                 color="primary"
                 onClick={handleNavigateToRegister}
                 sx={{                  
+                  fontSize: '0.875rem',
                   '&:hover': { 
                     background: 'rgba(72, 24, 47, 0.04)',
                     textDecoration: 'underline'
@@ -155,6 +156,7 @@ const Login = () => {
                 color="primary"
                 onClick={handleNavigateToRecovery}
                 sx={{                  
+                  fontSize: '0.875rem',
                   '&:hover': { 
                     background: 'rgba(72, 24, 47, 0.04)',
                     textDecoration: 'underline'

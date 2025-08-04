@@ -170,31 +170,33 @@ const RegisterPage = () => {
                )}
              />
            </Box>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>            
-            <Button
-              text="Ya tengo una cuenta"
-              variant="outlined"
-              color="primary"
-              onClick={handleNavigateToLogin}
-              sx={{                                  
-                '&:hover': { 
-                  background: 'rgba(72, 24, 47, 0.04)',
-                  textDecoration: 'underline'
-                }
-              }}
-            />
-            <Button
-              text="Olvidé mi contraseña"
-              variant="outlined"
-              color="primary"
-              onClick={handleNavigateToRecovery}
-              sx={{                                  
-                '&:hover': { 
-                  background: 'rgba(72, 24, 47, 0.04)',
-                  textDecoration: 'underline'
-                }
-              }}
-            />
+              <Box sx={{ display: 'flex', flexDirection: 'column' }}>            
+                <Button
+                text="Ya tengo una cuenta"
+                variant="outlined"
+                color="primary"
+                onClick={handleNavigateToLogin}
+                sx={{                                  
+                  fontSize: '0.875rem',
+                  '&:hover': { 
+                    background: 'rgba(72, 24, 47, 0.04)',
+                    textDecoration: 'underline'
+                  }
+                }}
+              />
+              <Button
+                text="Olvidé mi contraseña"
+                variant="outlined"
+                color="primary"
+                onClick={handleNavigateToRecovery}
+                sx={{                                  
+                  fontSize: '0.875rem',
+                  '&:hover': { 
+                    background: 'rgba(72, 24, 47, 0.04)',
+                    textDecoration: 'underline'
+                  }
+                }}
+              />
           </Box>          
         </Box>
       </Box>

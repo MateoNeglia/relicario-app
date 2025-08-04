@@ -33,7 +33,7 @@ const Button = ({
       to={to}
       disabled={loading || disabled}
       sx={{
-        mt: 2,
+        mt: 1,
         position: 'relative',
         ...(textColor && { color: theme.palette[textColor] || textColor }),
         ...(typeof resolvedColor !== 'string' && {
