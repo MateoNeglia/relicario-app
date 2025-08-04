@@ -130,7 +130,7 @@ const RegisterPage = () => {
               disabled={isSubmitting}
             />
           </Box>
-                     <Box className="google-login-wrapper">
+            <Box className="google-login-wrapper">
              <GoogleLogin
                onSuccess={handleGoogleSuccess}
                onError={handleGoogleError}

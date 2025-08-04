@@ -248,6 +248,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const googleLogin = async (credential) => {
+    console.log('googleLogin: credential=', credential);
     try {
       const response = await axios.post(`${config.BACKEND_URL}/auth/google`, { credential });
       const { accessToken, refreshToken } = response.data;
