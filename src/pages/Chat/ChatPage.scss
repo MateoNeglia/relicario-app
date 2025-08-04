@@ -5,6 +5,8 @@
   flex-direction: row;
   height: calc(100vh - 70px);
   background-color: palette.$background-default;
+  max-width: 1200 px;
+  margin: 0 auto;
   .chat-list {
     min-width: 300px;
     .chat-list-item {
