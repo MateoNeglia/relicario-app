@@ -1,0 +1,62 @@
+.google-auth-button {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-transform: none !important;
+  text-decoration: none !important;
+  transition: all 0.3s ease !important;
+  font-weight: 500 !important;
+  border-radius: 8px !important;
+  padding: 12px 24px !important;
+  min-height: 48px !important;
+  
+  .google-button-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    width: 100%;
+    
+    .google-icon {
+      flex-shrink: 0;
+      transition: transform 0.2s ease;
+    }
+    
+    span {
+      font-size: 16px;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+  }
+  
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    
+    .google-icon {
+      transform: scale(1.1);
+    }
+  }
+  
+  &:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  &:disabled {
+    transform: none !important;
+    box-shadow: none !important;
+    cursor: not-allowed !important;
+    
+    .google-icon {
+      transform: none !important;
+    }
+  }
+  
+  // Loading state
+  &:has(.MuiCircularProgress-root) {
+    .google-button-content {
+      opacity: 0.7;
+    }
+  }
+} 

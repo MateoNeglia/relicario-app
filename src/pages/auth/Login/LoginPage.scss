@@ -55,21 +55,7 @@
       
       .google-login-wrapper {
         margin-top: 1rem;
-        background-color: transparent !important;
         width: 100%;
-        
-        & > div,
-        & > iframe {
-          background-color: transparent !important;
-          width: 100% !important;
-          margin-right: auto;
-          margin-left: auto;
-        }
-        
-        // Ensure the Google login button takes full width
-        .relicario-button {
-          width: 100% !important;
-        }
       }
     }
   }

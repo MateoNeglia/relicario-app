@@ -6,6 +6,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Input from '../../../components/Input/Input';
 import Button from '../../../components/Button/Button';
+import GoogleAuthButton from '../../../components/Button/GoogleAuthButton';
 import RelicarioLogo from '../../../assets/imgs/relicario-logo.svg';
 import './RegisterPage.scss';
 
@@ -135,12 +136,11 @@ const RegisterPage = () => {
                onSuccess={handleGoogleSuccess}
                onError={handleGoogleError}
                render={(renderProps) => (
-                 <Button
+                 <GoogleAuthButton
                    text="Sign in with Google"
                    onClick={renderProps.onClick}
                    disabled={renderProps.disabled || isSubmitting}
-                   color="primary.light" 
-                   textColor="text.primary"
+                   loading={isSubmitting}
                  />
                )}
              />
