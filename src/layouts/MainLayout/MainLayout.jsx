@@ -25,12 +25,19 @@ const MainLayout = ({ page }) => {
   const navigate = useNavigate();
   const { id } = useParams();   
 
-//collector-profile
-
+  // Add loading check for AuthContext
+  if (userContext?.loading) {
+    return <div>Loading...</div>;
+  }
 
   if (!searchContext) {
     console.error('MainLayout: SearchContext is undefined');
     return <div>Error: SearchContext not available</div>;
+  }
+
+  if (!userContext) {
+    console.error('MainLayout: AuthContext is undefined');
+    return <div>Error: AuthContext not available</div>;
   }
 
   const { updateSearchParams } = searchContext;
@@ -41,6 +48,12 @@ const MainLayout = ({ page }) => {
   };
 
   const renderPage = () => {
+    // Add null check for userContext
+    if (!userContext) {
+      console.error('MainLayout: AuthContext is undefined');
+      return <div>Error: AuthContext not available</div>;
+    }
+
     switch (page) {
       case 'landing':
         return <LandingPage />;

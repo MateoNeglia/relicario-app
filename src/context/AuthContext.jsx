@@ -56,7 +56,9 @@ export const AuthProvider = ({ children }) => {
             }
             const decoded = isTokenValid(accessToken);
             if (decoded) {
-              setUser({ _id: decoded.id, username: decoded.username, email: decoded.email, role: decoded.role });
+              const userData = { _id: decoded.id, username: decoded.username, email: decoded.email, role: decoded.role };
+              console.log('interceptor - Setting user data:', userData);
+              setUser(userData);
               originalRequest.headers.Authorization = `Bearer ${accessToken}`;
               axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
               return axios(originalRequest);
@@ -87,6 +89,7 @@ export const AuthProvider = ({ children }) => {
           try {
             axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
             const userData = await getUserById(decoded.id);
+            console.log('restoreSession - Setting user data:', userData);
             setUser(userData);
           } catch (err) {
             console.error('restoreSession: Error=', err.message);
@@ -126,6 +129,7 @@ export const AuthProvider = ({ children }) => {
 
       axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
       const userData = await getUserById(decoded.id);
+      console.log('login - Setting user data:', userData);
       setUser(userData);
       return userData;
     } catch (err) {
@@ -162,6 +166,7 @@ export const AuthProvider = ({ children }) => {
         axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
         const userData = await getUserById(decoded.id);
 
+        console.log('register - Setting user data:', userData);
         setUser(userData);
 
         return userData;
@@ -239,8 +244,14 @@ export const AuthProvider = ({ children }) => {
         { headers: { Authorization: `Bearer ${accessToken}` } }
       );
 
+      // Ensure we return a valid user object
+      if (!res.data || typeof res.data !== 'object') {
+        throw new Error('Invalid user data received');
+      }
+
       return res.data;
     } catch (err) {
+      console.error('getUserById error:', err);
       throw new Error(err.response?.data?.message || 'Failed to fetch user');
     }
   };
@@ -268,6 +279,7 @@ export const AuthProvider = ({ children }) => {
   
       axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
       const userData = await getUserById(decoded._id); 
+      console.log('googleLogin - Setting user data:', userData);
       setUser(userData);
       return userData;
     } catch (err) {
