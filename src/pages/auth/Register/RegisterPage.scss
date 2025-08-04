@@ -62,15 +62,19 @@
       display: flex !important;
       justify-content: center !important;
     }
-    .S9gUrf-YoZ4jf, .haAclf, .haAclf-a, #container-div {
-      width: 100% !important;      
-    }
-    
+        
     // Target the actual Google button iframe
     iframe {
       width: 100% !important;
       max-width: none !important;
       min-width: 100% !important;
+      html {
+       body {
+        #container-div {
+          width: 100% !important;
+        }
+       }
+      }
     }
     
     // Ensure our custom button maintains full width
