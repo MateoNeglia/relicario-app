@@ -135,6 +135,14 @@ const RegisterPage = () => {
              <GoogleLogin
                onSuccess={handleGoogleSuccess}
                onError={handleGoogleError}
+               text="Sign in with Google"
+               size="large"
+               shape="circle"
+               theme="outline"
+               width="100%"
+               logo_alignment="left"
+               type="standard"                              
+
                render={(renderProps) => (
                  <GoogleAuthButton
                    text="Sign in with Google"
