@@ -23,12 +23,24 @@ const LandingPage = () => {
             limit: 6,
           },
         });
-
-        console.log('Relics response:', response.data);
-        setRelics(response.data.relics);
+        
+        console.log('API Response:', response.data);
+        console.log('Response data type:', typeof response.data);
+        console.log('Response.data.relics:', response.data.relics);
+        
+        // Ensure we're setting an array, not an object
+        const relicsData = Array.isArray(response.data.relics) 
+          ? response.data.relics 
+          : Array.isArray(response.data) 
+            ? response.data 
+            : [];
+        
+        console.log('Final relics data:', relicsData);
+        setRelics(relicsData);
         setLoading(false);
       } catch (err) {
         console.error('Fetch error:', err.response?.data, err.message);
+        console.error('Response structure:', err.response?.data);
         setError(err.response?.data?.message || 'Error al cargar las reliquias');
         setLoading(false);
       }
