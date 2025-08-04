@@ -61,6 +61,8 @@
     & > iframe {
       background-color: transparent !important;
       width: 100% !important;
+      margin-right: auto;
+      margin-left: auto;
     }
     
     // Ensure the Google login button takes full width
